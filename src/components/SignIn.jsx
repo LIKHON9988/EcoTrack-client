@@ -1,7 +1,91 @@
-import React from "react";
-import { Link } from "react-router";
+import React, { useContext, useState, useMemo } from "react";
+import { Link, useNavigate, useLocation } from "react-router";
+import { AuthContext } from "../contexts/AuthContext";
+import { Eye, EyeOff } from "lucide-react";
+
+// Lightweight toast component
+const Toast = ({ message, type = "info", onClose }) => {
+  if (!message) return null;
+  const bg =
+    type === "error"
+      ? "bg-red-500/90"
+      : type === "success"
+      ? "bg-emerald-500/90"
+      : "bg-blue-500/90";
+  return (
+    <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50">
+      <div
+        className={`text-white px-4 py-2 rounded-xl shadow-xl ${bg} backdrop-blur-sm flex items-center gap-2`}
+      >
+        <span>{message}</span>
+        <button
+          onClick={onClose}
+          className="ml-2 text-white/80 hover:text-white"
+        >
+          ✕
+        </button>
+      </div>
+    </div>
+  );
+};
 
 const SignIn = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { signInUser, signInWithGoogle } = useContext(AuthContext);
+  const [loading, setLoading] = useState(false);
+  const [toast, setToast] = useState({ message: "", type: "info" });
+  const [showPassword, setShowPassword] = useState(false); // 👈 added state
+
+  const redirectTo = useMemo(() => {
+    const statePath = location.state?.from?.pathname;
+    const searchParams = new URLSearchParams(location.search);
+    const qp = searchParams.get("redirect");
+    return statePath || qp || "/";
+  }, [location]);
+
+  const showToast = (message, type = "info") => setToast({ message, type });
+
+  const handleGoogle = () => {
+    setLoading(true);
+    signInWithGoogle()
+      .then(() => {
+        showToast("Logged in with Google!", "success");
+        setTimeout(() => navigate(redirectTo, { replace: true }), 400);
+      })
+      .catch((error) => {
+        console.log(error);
+        showToast(error?.message || "Google login failed.", "error");
+      })
+      .finally(() => setLoading(false));
+  };
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    const email = formData.get("email")?.toString().trim();
+    const password = formData.get("password")?.toString();
+    if (!email || !password) {
+      showToast("Please enter your email and password.", "error");
+      return;
+    }
+    setLoading(true);
+    signInUser(email, password)
+      .then(() => {
+        showToast("Logged in successfully!", "success");
+        setTimeout(() => navigate(redirectTo, { replace: true }), 400);
+      })
+      .catch((error) => {
+        console.log(error);
+        showToast(
+          error?.message || "Failed to login. Please try again.",
+          "error"
+        );
+      })
+      .finally(() => setLoading(false));
+  };
+
   return (
     <section className="relative min-h-screen bg-gradient-to-br from-green-600 via-blue-600 to-emerald-600 flex items-center justify-center overflow-hidden p-4">
       {/* Decorative background */}
@@ -21,24 +105,37 @@ const SignIn = () => {
             </p>
           </div>
 
-          <form className="space-y-3 md:space-y-4">
+          <form onSubmit={handleLogin} className="space-y-3 md:space-y-4">
             <div>
               <label className="block text-white/90 text-sm mb-1">Email</label>
               <input
                 type="email"
+                name="email"
                 placeholder="you@example.com"
                 className="w-full px-3 py-2 md:px-4 md:py-3 rounded-xl bg-white/15 border border-white/20 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-green-400/60 focus:border-green-300/50"
               />
             </div>
+
             <div>
               <label className="block text-white/90 text-sm mb-1">
                 Password
               </label>
-              <input
-                type="password"
-                placeholder="••••••••"
-                className="w-full px-3 py-2 md:px-4 md:py-3 rounded-xl bg-white/15 border border-white/20 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-blue-400/60 focus:border-blue-300/50"
-              />
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"} // 👈 toggled here
+                  name="password"
+                  placeholder="••••••••"
+                  className="w-full px-3 py-2 md:px-4 md:py-3 pr-10 rounded-xl bg-white/15 border border-white/20 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-blue-400/60 focus:border-blue-300/50"
+                />
+                {/* Toggle button */}
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-white/70 hover:text-white focus:outline-none"
+                >
+                  {showPassword ? <EyeOff /> : <Eye />}
+                </button>
+              </div>
             </div>
 
             <div className="flex items-center justify-between text-xs md:text-sm">
@@ -58,9 +155,12 @@ const SignIn = () => {
 
             <button
               type="submit"
-              className="w-full mt-2 md:mt-3 bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white px-4 md:px-5 py-2.5 md:py-3 rounded-xl font-semibold transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-green-400/50 "
+              disabled={loading}
+              className={`w-full mt-2 md:mt-3 bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white px-4 md:px-5 py-2.5 md:py-3 rounded-xl font-semibold transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-green-400/50 ${
+                loading ? "opacity-70 cursor-not-allowed" : ""
+              }`}
             >
-              Log In
+              {loading ? "Logging in..." : "Log In"}
             </button>
 
             <div className="relative py-2">
@@ -71,8 +171,12 @@ const SignIn = () => {
             </div>
 
             <button
+              onClick={handleGoogle}
               type="button"
-              className={`w-full bg-white/10 hover:bg-white/20 text-white border border-white/20 px-4 md:px-5 py-2.5 md:py-3 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-2 `}
+              disabled={loading}
+              className={`w-full bg-white/10 hover:bg-white/20 text-white border border-white/20 px-4 md:px-5 py-2.5 md:py-3 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-2 ${
+                loading ? "opacity-70 cursor-not-allowed" : ""
+              }`}
             >
               <svg className="w-5 h-5" viewBox="0 0 24 24">
                 <path
@@ -85,6 +189,12 @@ const SignIn = () => {
           </form>
         </div>
       </div>
+
+      <Toast
+        message={toast.message}
+        type={toast.type}
+        onClose={() => setToast({ message: "", type: "info" })}
+      />
     </section>
   );
 };

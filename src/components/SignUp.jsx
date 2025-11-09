@@ -1,54 +1,16 @@
-import React, { useMemo, useState } from "react";
+import React, { useContext, useMemo, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router";
-
-// Lightweight toast component
-const Toast = ({ message, type = "info", onClose }) => {
-  if (!message) return null;
-  const bg =
-    type === "error"
-      ? "bg-red-500/90"
-      : type === "success"
-      ? "bg-emerald-500/90"
-      : "bg-blue-500/90";
-  return (
-    <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50">
-      <div
-        className={`text-white px-4 py-2 rounded-xl shadow-xl ${bg} backdrop-blur-sm flex items-center gap-2`}
-      >
-        <span>{message}</span>
-        <button
-          onClick={onClose}
-          className="ml-2 text-white/80 hover:text-white"
-        >
-          ✕
-        </button>
-      </div>
-    </div>
-  );
-};
-
-const passwordValidators = [
-  {
-    label: "At least 1 uppercase letter",
-    test: (v) => /[A-Z]/.test(v),
-  },
-  {
-    label: "At least 1 lowercase letter",
-    test: (v) => /[a-z]/.test(v),
-  },
-  {
-    label: "At least 1 special character",
-    test: (v) => /[^A-Za-z0-9]/.test(v),
-  },
-  {
-    label: "Minimum length 6 characters",
-    test: (v) => v.length >= 6,
-  },
-];
+import { AuthContext } from "../contexts/AuthContext";
+import { updateProfile } from "firebase/auth";
 
 const SignUp = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { createUser, signInWithGoogle } = useContext(AuthContext);
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [toast, setToast] = useState({ message: "", type: "info" });
+
   const redirectTo = useMemo(() => {
     const statePath = location.state?.from?.pathname;
     const searchParams = new URLSearchParams(location.search);
@@ -56,53 +18,61 @@ const SignUp = () => {
     return statePath || qp || "/";
   }, [location]);
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [photoUrl, setPhotoUrl] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [toast, setToast] = useState({ message: "", type: "info" });
-
-  const validations = useMemo(
-    () =>
-      passwordValidators.map((v) => ({ label: v.label, ok: v.test(password) })),
-    [password]
-  );
+  const passwordValidators = [
+    { label: "At least 1 uppercase letter", test: (v) => /[A-Z]/.test(v) },
+    { label: "At least 1 lowercase letter", test: (v) => /[a-z]/.test(v) },
+    { label: "At least 1 special character", test: (v) => /[^A-Za-z0-9]/.test(v) },
+    { label: "Minimum length 6 characters", test: (v) => v.length >= 6 },
+  ];
+  const validations = passwordValidators.map((v) => ({ label: v.label, ok: v.test(password) }));
   const isPasswordValid = validations.every((v) => v.ok);
 
   const showToast = (message, type = "info") => setToast({ message, type });
 
-  const handleSubmit = async (e) => {
+  const handleCreatUser = async (e) => {
     e.preventDefault();
-    setLoading(true);
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    const name = formData.get("name")?.toString().trim();
+    const email = formData.get("email")?.toString().trim();
+    const photoUrl = formData.get("photoUrl")?.toString().trim();
+    const pwd = password;
+
+    if (!name || !email || !pwd) {
+      showToast("Please fill out all required fields.", "error");
+      return;
+    }
+    if (!isPasswordValid) {
+      showToast("Password does not meet requirements.", "error");
+      return;
+    }
+
     try {
-      if (!name || !email || !password) {
-        throw new Error("Please fill out all required fields.");
-      }
-      if (!isPasswordValid) {
-        throw new Error("Password does not meet requirements.");
-      }
-      // Simulate API call
-      await new Promise((res) => setTimeout(res, 1000));
+      setLoading(true);
+      const result = await createUser(email, pwd);
+      await updateProfile(result.user, {
+        displayName: name,
+        photoURL: photoUrl || undefined,
+      });
       showToast("Registered successfully!", "success");
-      setTimeout(() => navigate(redirectTo), 600);
-    } catch (err) {
-      showToast(
-        err.message || "Failed to register. Please try again.",
-        "error"
-      );
+      setTimeout(() => navigate(redirectTo, { replace: true }), 500);
+    } catch (error) {
+      console.log(error);
+      showToast(error?.message || "Failed to register. Please try again.", "error");
     } finally {
       setLoading(false);
     }
   };
 
   const handleGoogleRegister = async () => {
-    setLoading(true);
     try {
-      await new Promise((res) => setTimeout(res, 800));
-      showToast("Google register is not connected yet.", "info");
-    } catch (err) {
-      showToast("Google register failed.", "error");
+      setLoading(true);
+      await signInWithGoogle();
+      showToast("Registered with Google!", "success");
+      setTimeout(() => navigate(redirectTo, { replace: true }), 400);
+    } catch (error) {
+      console.log(error);
+      showToast(error?.message || "Google register failed.", "error");
     } finally {
       setLoading(false);
     }
@@ -127,13 +97,12 @@ const SignUp = () => {
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-3 md:space-y-4">
+          <form onSubmit={handleCreatUser} className="space-y-3 md:space-y-4">
             <div>
               <label className="block text-white/90 text-sm mb-1">Name</label>
               <input
+                name="name"
                 type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
                 placeholder="Your name"
                 className="w-full px-3 py-2 md:px-4 md:py-3 rounded-xl bg-white/15 border border-white/20 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-green-400/60 focus:border-green-300/50"
               />
@@ -142,9 +111,8 @@ const SignUp = () => {
             <div>
               <label className="block text-white/90 text-sm mb-1">Email</label>
               <input
+                name="email"
                 type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@example.com"
                 className="w-full px-3 py-2 md:px-4 md:py-3 rounded-xl bg-white/15 border border-white/20 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-green-400/60 focus:border-green-300/50"
               />
@@ -155,9 +123,8 @@ const SignUp = () => {
                 Photo URL
               </label>
               <input
+                name="photoUrl"
                 type="url"
-                value={photoUrl}
-                onChange={(e) => setPhotoUrl(e.target.value)}
                 placeholder="https://example.com/photo.jpg"
                 className="w-full px-3 py-2 md:px-4 md:py-3 rounded-xl bg-white/15 border border-white/20 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-blue-400/60 focus:border-blue-300/50"
               />
@@ -168,29 +135,22 @@ const SignUp = () => {
                 Password
               </label>
               <input
+                name="password"
                 type="password"
+                placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
                 className={`w-full px-3 py-2 md:px-4 md:py-3 rounded-xl bg-white/15 border text-white placeholder-white/60 focus:outline-none focus:ring-2 ${
-                  isPasswordValid
-                    ? "border-white/20 focus:ring-green-400/60 focus:border-green-300/50"
-                    : "border-red-400/60 focus:ring-red-400/60"
+                  isPasswordValid ? "border-white/20" : "border-red-400/60"
                 }`}
               />
               <ul className="mt-2 grid grid-cols-1 md:grid-cols-2 gap-1">
                 {validations.map((v) => (
                   <li
                     key={v.label}
-                    className={`text-xs md:text-sm flex items-center gap-2 ${
-                      v.ok ? "text-green-200" : "text-red-200"
-                    }`}
+                    className={`text-xs md:text-sm flex items-center gap-2 ${v.ok ? "text-green-200" : "text-red-200"}`}
                   >
-                    <span
-                      className={`w-2 h-2 rounded-full ${
-                        v.ok ? "bg-green-400" : "bg-red-400"
-                      }`}
-                    />
+                    <span className={`w-2 h-2 rounded-full ${v.ok ? "bg-green-400" : "bg-red-400"}`} />
                     {v.label}
                   </li>
                 ))}
@@ -210,9 +170,7 @@ const SignUp = () => {
               type="submit"
               disabled={loading || !isPasswordValid}
               className={`w-full mt-2 md:mt-3 bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white px-4 md:px-5 py-2.5 md:py-3 rounded-xl font-semibold transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-green-400/50 ${
-                loading || !isPasswordValid
-                  ? "opacity-70 cursor-not-allowed"
-                  : ""
+                loading || !isPasswordValid ? "opacity-70 cursor-not-allowed" : ""
               }`}
             >
               {loading ? "Registering..." : "Register"}
@@ -244,12 +202,28 @@ const SignUp = () => {
           </form>
         </div>
       </div>
-
-      <Toast
-        message={toast.message}
-        type={toast.type}
-        onClose={() => setToast({ message: "", type: "info" })}
-      />
+      {/* Toast */}
+      {toast.message && (
+        <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50">
+          <div
+            className={`text-white px-4 py-2 rounded-xl shadow-xl ${
+              toast.type === "error"
+                ? "bg-red-500/90"
+                : toast.type === "success"
+                ? "bg-emerald-500/90"
+                : "bg-blue-500/90"
+            } backdrop-blur-sm flex items-center gap-2`}
+          >
+            <span>{toast.message}</span>
+            <button
+              onClick={() => setToast({ message: "", type: "info" })}
+              className="ml-2 text-white/80 hover:text-white"
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+      )}
     </section>
   );
 };
