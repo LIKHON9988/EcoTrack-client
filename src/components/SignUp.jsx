@@ -1,0 +1,257 @@
+import React, { useMemo, useState } from "react";
+import { Link, useNavigate, useLocation } from "react-router";
+
+// Lightweight toast component
+const Toast = ({ message, type = "info", onClose }) => {
+  if (!message) return null;
+  const bg =
+    type === "error"
+      ? "bg-red-500/90"
+      : type === "success"
+      ? "bg-emerald-500/90"
+      : "bg-blue-500/90";
+  return (
+    <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50">
+      <div
+        className={`text-white px-4 py-2 rounded-xl shadow-xl ${bg} backdrop-blur-sm flex items-center gap-2`}
+      >
+        <span>{message}</span>
+        <button
+          onClick={onClose}
+          className="ml-2 text-white/80 hover:text-white"
+        >
+          ✕
+        </button>
+      </div>
+    </div>
+  );
+};
+
+const passwordValidators = [
+  {
+    label: "At least 1 uppercase letter",
+    test: (v) => /[A-Z]/.test(v),
+  },
+  {
+    label: "At least 1 lowercase letter",
+    test: (v) => /[a-z]/.test(v),
+  },
+  {
+    label: "At least 1 special character",
+    test: (v) => /[^A-Za-z0-9]/.test(v),
+  },
+  {
+    label: "Minimum length 6 characters",
+    test: (v) => v.length >= 6,
+  },
+];
+
+const SignUp = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const redirectTo = useMemo(() => {
+    const statePath = location.state?.from?.pathname;
+    const searchParams = new URLSearchParams(location.search);
+    const qp = searchParams.get("redirect");
+    return statePath || qp || "/";
+  }, [location]);
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [photoUrl, setPhotoUrl] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [toast, setToast] = useState({ message: "", type: "info" });
+
+  const validations = useMemo(
+    () =>
+      passwordValidators.map((v) => ({ label: v.label, ok: v.test(password) })),
+    [password]
+  );
+  const isPasswordValid = validations.every((v) => v.ok);
+
+  const showToast = (message, type = "info") => setToast({ message, type });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      if (!name || !email || !password) {
+        throw new Error("Please fill out all required fields.");
+      }
+      if (!isPasswordValid) {
+        throw new Error("Password does not meet requirements.");
+      }
+      // Simulate API call
+      await new Promise((res) => setTimeout(res, 1000));
+      showToast("Registered successfully!", "success");
+      setTimeout(() => navigate(redirectTo), 600);
+    } catch (err) {
+      showToast(
+        err.message || "Failed to register. Please try again.",
+        "error"
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGoogleRegister = async () => {
+    setLoading(true);
+    try {
+      await new Promise((res) => setTimeout(res, 800));
+      showToast("Google register is not connected yet.", "info");
+    } catch (err) {
+      showToast("Google register failed.", "error");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <section className="relative min-h-screen  bg-gradient-to-br from-green-600 via-blue-600 to-emerald-600 flex items-center justify-center overflow-hidden">
+      {/* Decorative background */}
+      <div className="absolute inset-0">
+        <div className="absolute -top-8 -left-8 w-40 h-40 md:w-64 md:h-64 bg-white/10 rounded-full blur-3xl" />
+        <div className="absolute -bottom-10 -right-10 w-52 h-52 md:w-80 md:h-80 bg-white/5 rounded-full blur-3xl" />
+      </div>
+
+      <div className="relative z-10 w-11/12 max-w-md md:max-w-lg">
+        <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-5 md:p-8 shadow-2xl">
+          <div className="mb-4 md:mb-6 text-center">
+            <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-white to-gray-200 bg-clip-text text-transparent">
+              Join EcoTrack
+            </h1>
+            <p className="text-white/80 text-sm md:text-base mt-1">
+              Create your account to start tracking impact.
+            </p>
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-3 md:space-y-4">
+            <div>
+              <label className="block text-white/90 text-sm mb-1">Name</label>
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Your name"
+                className="w-full px-3 py-2 md:px-4 md:py-3 rounded-xl bg-white/15 border border-white/20 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-green-400/60 focus:border-green-300/50"
+              />
+            </div>
+
+            <div>
+              <label className="block text-white/90 text-sm mb-1">Email</label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="you@example.com"
+                className="w-full px-3 py-2 md:px-4 md:py-3 rounded-xl bg-white/15 border border-white/20 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-green-400/60 focus:border-green-300/50"
+              />
+            </div>
+
+            <div>
+              <label className="block text-white/90 text-sm mb-1">
+                Photo URL
+              </label>
+              <input
+                type="url"
+                value={photoUrl}
+                onChange={(e) => setPhotoUrl(e.target.value)}
+                placeholder="https://example.com/photo.jpg"
+                className="w-full px-3 py-2 md:px-4 md:py-3 rounded-xl bg-white/15 border border-white/20 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-blue-400/60 focus:border-blue-300/50"
+              />
+            </div>
+
+            <div>
+              <label className="block text-white/90 text-sm mb-1">
+                Password
+              </label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••"
+                className={`w-full px-3 py-2 md:px-4 md:py-3 rounded-xl bg-white/15 border text-white placeholder-white/60 focus:outline-none focus:ring-2 ${
+                  isPasswordValid
+                    ? "border-white/20 focus:ring-green-400/60 focus:border-green-300/50"
+                    : "border-red-400/60 focus:ring-red-400/60"
+                }`}
+              />
+              <ul className="mt-2 grid grid-cols-1 md:grid-cols-2 gap-1">
+                {validations.map((v) => (
+                  <li
+                    key={v.label}
+                    className={`text-xs md:text-sm flex items-center gap-2 ${
+                      v.ok ? "text-green-200" : "text-red-200"
+                    }`}
+                  >
+                    <span
+                      className={`w-2 h-2 rounded-full ${
+                        v.ok ? "bg-green-400" : "bg-red-400"
+                      }`}
+                    />
+                    {v.label}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="flex items-center justify-between text-xs md:text-sm">
+              <Link
+                to="/signIn"
+                className="text-white/90 hover:text-white underline underline-offset-2"
+              >
+                Already have an account?
+              </Link>
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading || !isPasswordValid}
+              className={`w-full mt-2 md:mt-3 bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white px-4 md:px-5 py-2.5 md:py-3 rounded-xl font-semibold transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-green-400/50 ${
+                loading || !isPasswordValid
+                  ? "opacity-70 cursor-not-allowed"
+                  : ""
+              }`}
+            >
+              {loading ? "Registering..." : "Register"}
+            </button>
+
+            <div className="relative py-2">
+              <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-px bg-white/20" />
+              <span className="relative z-10 bg-transparent text-white/70 px-2 text-xs md:text-sm">
+                or
+              </span>
+            </div>
+
+            <button
+              type="button"
+              onClick={handleGoogleRegister}
+              disabled={loading}
+              className={`w-full bg-white/10 hover:bg-white/20 text-white border border-white/20 px-4 md:px-5 py-2.5 md:py-3 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-2 ${
+                loading ? "opacity-70 cursor-not-allowed" : ""
+              }`}
+            >
+              <svg className="w-5 h-5" viewBox="0 0 24 24">
+                <path
+                  fill="currentColor"
+                  d="M21.35 11.1h-9.17v2.98h5.27c-.23 1.45-1.6 3.42-4.27 3.42-2.56 0-4.65-2.12-4.65-4.73s2.09-4.73 4.65-4.73c1.46 0 2.44.62 3 1.16l2.04-1.97C17.2 5.86 15.52 5 13.18 5 8.94 5 5.5 8.39 5.5 12.77s3.44 7.77 7.68 7.77c4.44 0 7.37-3.12 7.37-7.51 0-.5-.06-.84-.2-1.93z"
+                />
+              </svg>
+              Google Register
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <Toast
+        message={toast.message}
+        type={toast.type}
+        onClose={() => setToast({ message: "", type: "info" })}
+      />
+    </section>
+  );
+};
+
+export default SignUp;
