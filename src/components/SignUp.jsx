@@ -2,12 +2,14 @@ import React, { useContext, useMemo, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router";
 import { AuthContext } from "../contexts/AuthContext";
 import { updateProfile } from "firebase/auth";
+import { Eye, EyeOff } from "lucide-react"; // 👁️ eye icons
 
 const SignUp = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { createUser, signInWithGoogle } = useContext(AuthContext);
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false); // 👁️ new state
   const [loading, setLoading] = useState(false);
   const [toast, setToast] = useState({ message: "", type: "info" });
 
@@ -21,10 +23,16 @@ const SignUp = () => {
   const passwordValidators = [
     { label: "At least 1 uppercase letter", test: (v) => /[A-Z]/.test(v) },
     { label: "At least 1 lowercase letter", test: (v) => /[a-z]/.test(v) },
-    { label: "At least 1 special character", test: (v) => /[^A-Za-z0-9]/.test(v) },
+    {
+      label: "At least 1 special character",
+      test: (v) => /[^A-Za-z0-9]/.test(v),
+    },
     { label: "Minimum length 6 characters", test: (v) => v.length >= 6 },
   ];
-  const validations = passwordValidators.map((v) => ({ label: v.label, ok: v.test(password) }));
+  const validations = passwordValidators.map((v) => ({
+    label: v.label,
+    ok: v.test(password),
+  }));
   const isPasswordValid = validations.every((v) => v.ok);
 
   const showToast = (message, type = "info") => setToast({ message, type });
@@ -58,7 +66,10 @@ const SignUp = () => {
       setTimeout(() => navigate(redirectTo, { replace: true }), 500);
     } catch (error) {
       console.log(error);
-      showToast(error?.message || "Failed to register. Please try again.", "error");
+      showToast(
+        error?.message || "Failed to register. Please try again.",
+        "error"
+      );
     } finally {
       setLoading(false);
     }
@@ -79,7 +90,7 @@ const SignUp = () => {
   };
 
   return (
-    <section className="relative min-h-screen  bg-gradient-to-br from-green-600 via-blue-600 to-emerald-600 flex items-center justify-center overflow-hidden">
+    <section className="relative min-h-screen bg-gradient-to-br from-green-600 via-blue-600 to-emerald-600 flex items-center justify-center overflow-hidden">
       {/* Decorative background */}
       <div className="absolute inset-0">
         <div className="absolute -top-8 -left-8 w-40 h-40 md:w-64 md:h-64 bg-white/10 rounded-full blur-3xl" />
@@ -130,27 +141,45 @@ const SignUp = () => {
               />
             </div>
 
-            <div>
+            {/* 👁️ Password field with toggle */}
+            <div className="relative">
               <label className="block text-white/90 text-sm mb-1">
                 Password
               </label>
-              <input
-                name="password"
-                type="password"
-                placeholder="••••••••"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className={`w-full px-3 py-2 md:px-4 md:py-3 rounded-xl bg-white/15 border text-white placeholder-white/60 focus:outline-none focus:ring-2 ${
-                  isPasswordValid ? "border-white/20" : "border-red-400/60"
-                }`}
-              />
+              <div className="relative">
+                <input
+                  name="password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className={`w-full px-3 py-2 md:px-4 md:py-3 rounded-xl bg-white/15 border text-white placeholder-white/60 focus:outline-none focus:ring-2 pr-10 ${
+                    isPasswordValid ? "border-white/20" : "border-red-400/60"
+                  }`}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute inset-y-0 right-3 flex items-center text-white/70 hover:text-white transition"
+                  tabIndex={-1}
+                >
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              </div>
+
               <ul className="mt-2 grid grid-cols-1 md:grid-cols-2 gap-1">
                 {validations.map((v) => (
                   <li
                     key={v.label}
-                    className={`text-xs md:text-sm flex items-center gap-2 ${v.ok ? "text-green-200" : "text-red-200"}`}
+                    className={`text-xs md:text-sm flex items-center gap-2 ${
+                      v.ok ? "text-green-200" : "text-red-200"
+                    }`}
                   >
-                    <span className={`w-2 h-2 rounded-full ${v.ok ? "bg-green-400" : "bg-red-400"}`} />
+                    <span
+                      className={`w-2 h-2 rounded-full ${
+                        v.ok ? "bg-green-400" : "bg-red-400"
+                      }`}
+                    />
                     {v.label}
                   </li>
                 ))}
@@ -170,7 +199,9 @@ const SignUp = () => {
               type="submit"
               disabled={loading || !isPasswordValid}
               className={`w-full mt-2 md:mt-3 bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white px-4 md:px-5 py-2.5 md:py-3 rounded-xl font-semibold transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-green-400/50 ${
-                loading || !isPasswordValid ? "opacity-70 cursor-not-allowed" : ""
+                loading || !isPasswordValid
+                  ? "opacity-70 cursor-not-allowed"
+                  : ""
               }`}
             >
               {loading ? "Registering..." : "Register"}
@@ -202,6 +233,7 @@ const SignUp = () => {
           </form>
         </div>
       </div>
+
       {/* Toast */}
       {toast.message && (
         <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50">
