@@ -87,7 +87,7 @@ const SignIn = () => {
   };
 
   return (
-    <section className="relative min-h-screen bg-gradient-to-br from-green-600 via-blue-600 to-emerald-600 flex items-center justify-center overflow-hidden p-4">
+    <section className="relative min-h-screen bg-gradient-to-br from-gray-900 via-gray-700 via-gray-600 to-gray-800 flex items-center justify-center overflow-hidden p-4">
       {/* Decorative background */}
       <div className="absolute inset-0">
         <div className="absolute -top-8 -left-8 w-40 h-40 md:w-64 md:h-64 bg-white/10 rounded-full blur-3xl" />
