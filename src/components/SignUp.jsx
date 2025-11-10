@@ -90,15 +90,15 @@ const SignUp = () => {
   };
 
   return (
-    <section className="relative min-h-screen bg-gradient-to-br from-green-600 via-blue-600 to-emerald-600 flex items-center justify-center overflow-hidden">
-      {/* Decorative background */}
+    <section className="relative min-h-screen bg-gradient-to-br from-[#050806] via-[#0b1410] to-[#051009] flex items-center justify-center overflow-hidden text-gray-100">
+      {/* Decorative Glow Orbs */}
       <div className="absolute inset-0">
-        <div className="absolute -top-8 -left-8 w-40 h-40 md:w-64 md:h-64 bg-white/10 rounded-full blur-3xl" />
-        <div className="absolute -bottom-10 -right-10 w-52 h-52 md:w-80 md:h-80 bg-white/5 rounded-full blur-3xl" />
+        <div className="absolute -top-8 -left-8 w-40 h-40 md:w-64 md:h-64 bg-emerald-600/20 rounded-full blur-3xl" />
+        <div className="absolute -bottom-10 -right-10 w-52 h-52 md:w-80 md:h-80 bg-green-500/10 rounded-full blur-3xl" />
       </div>
 
       <div className="relative z-10 w-11/12 max-w-md md:max-w-lg">
-        <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-5 md:p-8 shadow-2xl">
+        <div className="bg-white/5 backdrop-blur-2xl border border-white/10 rounded-2xl p-5 md:p-8 shadow-[0_0_40px_-10px_rgba(16,185,129,0.3)]">
           <div className="mb-4 md:mb-6 text-center">
             <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-white to-gray-200 bg-clip-text text-transparent">
               Join EcoTrack
@@ -115,7 +115,7 @@ const SignUp = () => {
                 name="name"
                 type="text"
                 placeholder="Your name"
-                className="w-full px-3 py-2 md:px-4 md:py-3 rounded-xl bg-white/15 border border-white/20 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-green-400/60 focus:border-green-300/50"
+                className="w-full px-3 py-2 md:px-4 md:py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-emerald-400/60 focus:border-emerald-300/50"
               />
             </div>
 
@@ -125,7 +125,7 @@ const SignUp = () => {
                 name="email"
                 type="email"
                 placeholder="you@example.com"
-                className="w-full px-3 py-2 md:px-4 md:py-3 rounded-xl bg-white/15 border border-white/20 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-green-400/60 focus:border-green-300/50"
+                className="w-full px-3 py-2 md:px-4 md:py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-emerald-400/60 focus:border-emerald-300/50"
               />
             </div>
 
@@ -137,11 +137,11 @@ const SignUp = () => {
                 name="photoUrl"
                 type="url"
                 placeholder="https://example.com/photo.jpg"
-                className="w-full px-3 py-2 md:px-4 md:py-3 rounded-xl bg-white/15 border border-white/20 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-blue-400/60 focus:border-blue-300/50"
+                className="w-full px-3 py-2 md:px-4 md:py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-blue-400/60 focus:border-blue-300/50"
               />
             </div>
 
-            {/* 👁️ Password field with toggle */}
+            {/* 👁️ Password field */}
             <div className="relative">
               <label className="block text-white/90 text-sm mb-1">
                 Password
@@ -153,7 +153,7 @@ const SignUp = () => {
                   placeholder="••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className={`w-full px-3 py-2 md:px-4 md:py-3 rounded-xl bg-white/15 border text-white placeholder-white/60 focus:outline-none focus:ring-2 pr-10 ${
+                  className={`w-full px-3 py-2 md:px-4 md:py-3 rounded-xl bg-white/10 border text-white placeholder-white/60 focus:outline-none focus:ring-2 pr-10 ${
                     isPasswordValid ? "border-white/20" : "border-red-400/60"
                   }`}
                 />
@@ -198,7 +198,7 @@ const SignUp = () => {
             <button
               type="submit"
               disabled={loading || !isPasswordValid}
-              className={`w-full mt-2 md:mt-3 bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white px-4 md:px-5 py-2.5 md:py-3 rounded-xl font-semibold transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-green-400/50 ${
+              className={`w-full mt-2 md:mt-3 bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white px-4 md:px-5 py-2.5 md:py-3 rounded-xl font-semibold transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-emerald-400/50 ${
                 loading || !isPasswordValid
                   ? "opacity-70 cursor-not-allowed"
                   : ""

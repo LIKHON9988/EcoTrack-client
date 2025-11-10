@@ -35,7 +35,7 @@ const SignIn = () => {
   const { signInUser, signInWithGoogle } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   const [toast, setToast] = useState({ message: "", type: "info" });
-  const [showPassword, setShowPassword] = useState(false); // 👈 added state
+  const [showPassword, setShowPassword] = useState(false);
 
   const redirectTo = useMemo(() => {
     const statePath = location.state?.from?.pathname;
@@ -87,15 +87,15 @@ const SignIn = () => {
   };
 
   return (
-    <section className="relative min-h-screen bg-gradient-to-br from-gray-900 via-gray-700 via-gray-600 to-gray-800 flex items-center justify-center overflow-hidden p-4">
-      {/* Decorative background */}
+    <section className="relative min-h-screen bg-gradient-to-br from-[#050806] via-[#0b1410] to-[#051009] flex items-center justify-center overflow-hidden p-4 text-gray-100">
+      {/* Decorative Glow Orbs */}
       <div className="absolute inset-0">
-        <div className="absolute -top-8 -left-8 w-40 h-40 md:w-64 md:h-64 bg-white/10 rounded-full blur-3xl" />
-        <div className="absolute -bottom-10 -right-10 w-52 h-52 md:w-80 md:h-80 bg-white/5 rounded-full blur-3xl" />
+        <div className="absolute -top-8 -left-8 w-40 h-40 md:w-64 md:h-64 bg-emerald-600/20 rounded-full blur-3xl" />
+        <div className="absolute -bottom-10 -right-10 w-52 h-52 md:w-80 md:h-80 bg-green-500/10 rounded-full blur-3xl" />
       </div>
 
       <div className="relative z-10 w-11/12 max-w-md md:max-w-lg">
-        <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-5 md:p-8 shadow-2xl">
+        <div className="bg-white/5 backdrop-blur-2xl border border-white/10 rounded-2xl p-5 md:p-8 shadow-[0_0_40px_-10px_rgba(16,185,129,0.3)]">
           <div className="mb-4 md:mb-6 text-center">
             <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-white to-gray-200 bg-clip-text text-transparent">
               Login to EcoTrack
@@ -112,7 +112,7 @@ const SignIn = () => {
                 type="email"
                 name="email"
                 placeholder="you@example.com"
-                className="w-full px-3 py-2 md:px-4 md:py-3 rounded-xl bg-white/15 border border-white/20 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-green-400/60 focus:border-green-300/50"
+                className="w-full px-3 py-2 md:px-4 md:py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-emerald-400/60 focus:border-emerald-300/50"
               />
             </div>
 
@@ -122,12 +122,11 @@ const SignIn = () => {
               </label>
               <div className="relative">
                 <input
-                  type={showPassword ? "text" : "password"} // 👈 toggled here
+                  type={showPassword ? "text" : "password"}
                   name="password"
                   placeholder="••••••••"
-                  className="w-full px-3 py-2 md:px-4 md:py-3 pr-10 rounded-xl bg-white/15 border border-white/20 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-blue-400/60 focus:border-blue-300/50"
+                  className="w-full px-3 py-2 md:px-4 md:py-3 pr-10 rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-blue-400/60 focus:border-blue-300/50"
                 />
-                {/* Toggle button */}
                 <button
                   type="button"
                   onClick={() => setShowPassword((prev) => !prev)}
@@ -156,7 +155,7 @@ const SignIn = () => {
             <button
               type="submit"
               disabled={loading}
-              className={`w-full mt-2 md:mt-3 bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white px-4 md:px-5 py-2.5 md:py-3 rounded-xl font-semibold transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-green-400/50 ${
+              className={`w-full mt-2 md:mt-3 bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white px-4 md:px-5 py-2.5 md:py-3 rounded-xl font-semibold transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-emerald-400/50 ${
                 loading ? "opacity-70 cursor-not-allowed" : ""
               }`}
             >
