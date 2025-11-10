@@ -8,7 +8,7 @@ const activeChallengePrm = fetch(
 
 const Home = () => {
   return (
-    <div className="bg-gradient-to-br from-gray-900 via-gray-700 via-gray-600 to-gray-800">
+    <div className="bg-gradient-to-br from-[#050806] via-[#0b1410] to-[#051009]">
       <HeroPart></HeroPart>
       <ActiveChallenge
         activeChallengePrm={activeChallengePrm}

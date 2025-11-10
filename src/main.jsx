@@ -11,6 +11,7 @@ import SignIn from "./components/SignIn";
 import SignUp from "./components/SignUp";
 import ForgotPassword from "./components/ForgotPassword";
 import AuthProvider from "./contexts/AuthProvider";
+import Details from "./components/Details";
 
 const router = createBrowserRouter([
   {
@@ -40,6 +41,12 @@ const router = createBrowserRouter([
       {
         path: "/forgot-password",
         element: <ForgotPassword></ForgotPassword>,
+      },
+      {
+        path: "/challengesDetail/:id",
+        loader: ({ params }) =>
+          fetch(`http://localhost:3000/challenges/${params.id}`),
+        element: <Details></Details>,
       },
     ],
   },

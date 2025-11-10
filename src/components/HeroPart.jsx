@@ -3,10 +3,10 @@ import React, { useRef, useEffect, useState } from "react";
 const slides = [
   {
     id: 1,
-    title: "Building a Cleaner Tomorrow",
+    title: "Tree Planting Challenge",
     desc: "Reimagining innovation with sustainability at its heart.",
     image:
-      "https://images.unsplash.com/photo-1503264116251-35a269479413?auto=format&fit=crop&w=1920&q=80",
+      "https://preview.redd.it/fall-in-the-smokies-3840x2160-v0-4smj0apwejhb1.png?width=1080&crop=smart&auto=webp&s=5435141c3dcb36fca8362de0471c9d80c166168d",
     btn: "Discover More",
   },
   {
@@ -14,15 +14,14 @@ const slides = [
     title: "Technology for a Better Planet",
     desc: "Smart solutions designed to reduce impact and inspire change.",
     image:
-      "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1920&q=80",
+      "https://i.pinimg.com/originals/e5/c8/03/e5c803a1f390a8bfb5f45abd8a055ba5.jpg",
     btn: "Learn More",
   },
   {
     id: 3,
     title: "Empower Your Green Vision",
     desc: "Together, we shape a sustainable, connected future.",
-    image:
-      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1920&q=80",
+    image: "https://wallpaperaccess.com/full/270973.jpg",
     btn: "Join the Movement",
   },
 ];
