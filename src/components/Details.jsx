@@ -13,6 +13,7 @@ const Details = () => {
   }
 
   const {
+    _id,
     title,
     category,
     description,
@@ -116,21 +117,13 @@ const Details = () => {
               </p>
             </div>
 
-            <button className="mt-4 sm:mt-6 py-2 sm:py-3 rounded-xl bg-white/10 hover:bg-white/20 transition-all backdrop-blur-md font-semibold text-white border border-white/30 hover:scale-105 shadow-md text-sm sm:text-base">
-              Join Challenge
-            </button>
+            <Link to={`/updateChallenge/${_id}`}>
+              <button className="mt-4 sm:mt-6 py-2 w-full sm:py-3 rounded-xl bg-emerald-500 hover:bg-emerald-600   transition-all backdrop-blur-md font-semibold text-white border border-white/30 hover:scale-105 shadow-md text-sm sm:text-base">
+                Update Challenge
+              </button>
+            </Link>
           </div>
         </div>
-      </div>
-
-      {/* Bottom Button */}
-      <div className="mt-8 sm:mt-10">
-        <Link
-          to="/challenges"
-          className="px-6 sm:px-8 py-2 sm:py-3 rounded-full bg-gradient-to-r from-emerald-500 to-green-600 text-white font-medium shadow-lg hover:shadow-emerald-500/30 hover:scale-105 transition-transform text-sm sm:text-base"
-        >
-          ← Back to All Challenges
-        </Link>
       </div>
     </section>
   );

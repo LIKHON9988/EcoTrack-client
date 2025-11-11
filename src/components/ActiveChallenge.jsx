@@ -44,11 +44,16 @@ const ActiveChallenge = ({ activeChallengePrm }) => {
               </p>
 
               {/* Details Button */}
-              <Link to={`/challengesDetail/${challenge._id}`}>
-                <button className="mt-3 px-4 sm:px-5 py-2 bg-white/10 backdrop-blur-md border border-white/20 text-sm font-semibold rounded-full text-white hover:bg-white/20 hover:scale-105 transition duration-300">
-                  View Details
-                </button>
-              </Link>
+              <div className="mt-4 flex flex-wrap justify-center sm:justify-start gap-3">
+                <Link
+                  to={"/challenges"}
+                  className="flex-1 sm:flex-none min-w-[120px]"
+                >
+                  <button className="w-full px-4 py-2 bg-white/10 backdrop-blur-md border border-white/20 text-sm font-semibold rounded-full text-white hover:bg-white/20 hover:scale-105 transition duration-300">
+                    View All Challenges
+                  </button>
+                </Link>
+              </div>
             </div>
           </div>
         ))}

@@ -12,6 +12,8 @@ import SignUp from "./components/SignUp";
 import ForgotPassword from "./components/ForgotPassword";
 import AuthProvider from "./contexts/AuthProvider";
 import Details from "./components/Details";
+import AddChallenges from "./components/AddChallenges";
+import UpdateChallenge from "./components/UpdateChallenge";
 
 const router = createBrowserRouter([
   {
@@ -24,6 +26,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/challenges",
+        loader: () => fetch("http://localhost:3000/challenges"),
         element: <Challenges></Challenges>,
       },
       {
@@ -47,6 +50,19 @@ const router = createBrowserRouter([
         loader: ({ params }) =>
           fetch(`http://localhost:3000/challenges/${params.id}`),
         element: <Details></Details>,
+      },
+      {
+        path: "/challengesActivities/:id",
+        loader: ({ params }) =>
+          fetch(`http://localhost:3000/challenges/${params.id}`),
+      },
+      {
+        path: "/addChallenges",
+        element: <AddChallenges></AddChallenges>,
+      },
+      {
+        path: "/updateChallenge/:id",
+        element: <UpdateChallenge></UpdateChallenge>,
       },
     ],
   },

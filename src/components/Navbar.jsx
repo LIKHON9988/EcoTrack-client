@@ -1,9 +1,21 @@
 import React, { useContext } from "react";
-import { Link, NavLink } from "react-router";
+import { Link, NavLink, useNavigate } from "react-router";
 import { AuthContext } from "../contexts/AuthContext";
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handleSignOut = async (e) => {
+    if (e && typeof e.preventDefault === "function") e.preventDefault();
+    if (e && typeof e.stopPropagation === "function") e.stopPropagation();
+    try {
+      await logOut();
+      navigate("/");
+    } catch (err) {
+      console.log("Sign out failed", err);
+    }
+  };
 
   const links = (
     <>
@@ -28,12 +40,20 @@ const Navbar = () => {
           My Activities
         </NavLink>
       </li>
+      <li>
+        <NavLink
+          to={"/addChallenges"}
+          className="hover:text-emerald-300 transition-colors"
+        >
+          Add Challenge
+        </NavLink>
+      </li>
     </>
   );
 
   return (
-    <div className="fixed top-0 left-0 w-full z-50 bg-white/15 backdrop-blur-lg shadow-sm">
-      <div className="navbar w-11/12 mx-auto text-white">
+    <div className="fixed top-0 left-0 w-full z-50 bg-white/10 backdrop-blur-sm shadow-sm">
+      <div className="navbar w-12/12 md:w-11/12 mx-auto text-white">
         {/* Left Section */}
         <div className="navbar-start">
           <div className="dropdown">
@@ -59,13 +79,13 @@ const Navbar = () => {
             </div>
             <ul
               tabIndex="-1"
-              className="menu menu-sm dropdown-content mt-3 w-52 p-2 rounded-xl bg-white/20 backdrop-blur-xl shadow-lg text-white"
+              className="menu menu-sm dropdown-content mt-3 w-52 p-2 rounded-xl bg-white/10 backdrop-blur-sm shadow-lg text-white"
             >
               {links}
             </ul>
           </div>
           <Link to={"/"}>
-            <p className="hover:cursor-pointer  text-2xl font-bold text-white">
+            <p className="hover:cursor-pointer text-2xl font-bold text-white">
               Eco<span className="text-emerald-300">Track</span>
             </p>
           </Link>
@@ -79,12 +99,42 @@ const Navbar = () => {
         {/* Right Section */}
         <div className="navbar-end flex items-center gap-3">
           {user ? (
-            <button
-              onClick={logOut}
-              className="btn btn-sm bg-emerald-500 hover:bg-emerald-600 text-white border-none shadow-md hover:shadow-lg transition-all duration-300"
-            >
-              Sign Out
-            </button>
+            <div>
+              <div className="dropdown dropdown-end">
+                <div
+                  tabIndex={0}
+                  role="button"
+                  className="btn btn-ghost btn-circle avatar"
+                >
+                  <div className="w-10 rounded-full">
+                    <img
+                      alt="User Avatar"
+                      src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                    />
+                  </div>
+                </div>
+                <ul
+                  tabIndex="-1"
+                  className="menu menu-sm dropdown-content rounded-box z-1 mt-3 w-52 p-3 bg-white/10 backdrop-blur-sm shadow-lg text-white"
+                >
+                  <li className="mb-4">
+                    <a className="justify-between">
+                      Profile
+                      <span className="badge">New</span>
+                    </a>
+                  </li>
+
+                  <li>
+                    <button
+                      onClick={handleSignOut}
+                      className="btn btn-sm bg-emerald-500 hover:bg-emerald-600 text-white border-none shadow-md hover:shadow-lg transition-all duration-300"
+                    >
+                      Sign Out
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            </div>
           ) : (
             <div className="flex gap-3">
               <NavLink
@@ -95,7 +145,7 @@ const Navbar = () => {
               </NavLink>
               <NavLink
                 to={"/signUp"}
-                className="btn btn-sm bg-white/30 hover:bg-white/40 text-white border-none backdrop-blur-lg shadow-md hover:shadow-lg transition-all duration-300"
+                className="btn btn-sm bg-white/20 hover:bg-white/30 text-white border-none backdrop-blur-sm shadow-md hover:shadow-lg transition-all duration-300"
               >
                 Register
               </NavLink>

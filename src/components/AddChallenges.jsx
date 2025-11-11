@@ -1,0 +1,194 @@
+import React, { useState, useContext } from "react";
+import { AuthContext } from "../contexts/AuthContext";
+
+const AddChallenges = () => {
+  const { user } = useContext(AuthContext);
+  const [formData, setFormData] = useState({
+    title: "",
+    category: "",
+    description: "",
+    duration: "",
+    target: "",
+    impactMetric: "",
+    imageUrl: "",
+    startDate: "",
+    endDate: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const newChallenge = {
+      ...formData,
+      participants: 0,
+      createdBy: user?.email || "Guest",
+    };
+
+    try {
+      const res = await fetch("http://localhost:3000/challenges", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newChallenge),
+      });
+
+      if (!res.ok) throw new Error("Failed to add challenge");
+
+      alert("✅ Challenge added successfully!");
+      setFormData({
+        title: "",
+        category: "",
+        description: "",
+        duration: "",
+        target: "",
+        impactMetric: "",
+        imageUrl: "",
+        startDate: "",
+        endDate: "",
+      });
+    } catch (err) {
+      console.error(err);
+      alert("Something went wrong. Try again!");
+    }
+  };
+
+  return (
+    <section className="min-h-screen bg-gradient-to-br from-[#050806] via-[#0b1410] to-[#051009] flex flex-col items-center py-24 px-4 text-gray-100">
+      <h1 className="text-4xl sm:text-5xl font-bold text-emerald-400 mb-10 drop-shadow-lg text-center">
+        🌿 Add New Challenge
+      </h1>
+
+      <form
+        onSubmit={handleSubmit}
+        className="w-full max-w-2xl bg-white/5 backdrop-blur-2xl border border-emerald-500/60 rounded-2xl shadow-[0_0_20px_#10b98140] p-6 sm:p-8 flex flex-col gap-4 transition-all duration-300"
+      >
+        <label className="flex flex-col text-gray-200 text-sm">
+          Title
+          <input
+            type="text"
+            name="title"
+            value={formData.title}
+            onChange={handleChange}
+            className="mt-2 p-2.5 rounded-lg bg-white/10 border border-white/20 text-white focus:outline-none focus:ring-2 focus:ring-emerald-400"
+            required
+          />
+        </label>
+
+        <label className="flex flex-col text-gray-200 text-sm">
+          Category
+          <input
+            type="text"
+            name="category"
+            value={formData.category}
+            onChange={handleChange}
+            className="mt-2 p-2.5 rounded-lg bg-white/10 border border-white/20 text-white focus:outline-none focus:ring-2 focus:ring-emerald-400"
+            required
+          />
+        </label>
+
+        <label className="flex flex-col text-gray-200 text-sm">
+          Description
+          <textarea
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+            className="mt-2 p-2.5 rounded-lg bg-white/10 border border-white/20 text-white focus:outline-none focus:ring-2 focus:ring-emerald-400 resize-none"
+            rows={3}
+            required
+          />
+        </label>
+
+        <div className="grid sm:grid-cols-2 gap-4">
+          <label className="flex flex-col text-gray-200 text-sm">
+            Duration (days)
+            <input
+              type="number"
+              name="duration"
+              value={formData.duration}
+              onChange={handleChange}
+              className="mt-2 p-2.5 rounded-lg bg-white/10 border border-white/20 text-white focus:outline-none focus:ring-2 focus:ring-emerald-400"
+              required
+            />
+          </label>
+
+          <label className="flex flex-col text-gray-200 text-sm">
+            Target / Goal
+            <input
+              type="text"
+              name="target"
+              value={formData.target}
+              onChange={handleChange}
+              className="mt-2 p-2.5 rounded-lg bg-white/10 border border-white/20 text-white focus:outline-none focus:ring-2 focus:ring-emerald-400"
+              required
+            />
+          </label>
+        </div>
+
+        <div className="grid sm:grid-cols-2 gap-4">
+          <label className="flex flex-col text-gray-200 text-sm">
+            Impact Metric
+            <input
+              type="text"
+              name="impactMetric"
+              value={formData.impactMetric}
+              onChange={handleChange}
+              className="mt-2 p-2.5 rounded-lg bg-white/10 border border-white/20 text-white focus:outline-none focus:ring-2 focus:ring-emerald-400"
+              required
+            />
+          </label>
+
+          <label className="flex flex-col text-gray-200 text-sm">
+            Image URL
+            <input
+              type="text"
+              name="imageUrl"
+              value={formData.imageUrl}
+              onChange={handleChange}
+              className="mt-2 p-2.5 rounded-lg bg-white/10 border border-white/20 text-white focus:outline-none focus:ring-2 focus:ring-emerald-400"
+              required
+            />
+          </label>
+        </div>
+
+        <div className="grid sm:grid-cols-2 gap-4">
+          <label className="flex flex-col text-gray-200 text-sm">
+            Start Date
+            <input
+              type="date"
+              name="startDate"
+              value={formData.startDate}
+              onChange={handleChange}
+              className="mt-2 p-2.5 rounded-lg bg-white/10 border border-white/20 text-white focus:outline-none focus:ring-2 focus:ring-emerald-400"
+              required
+            />
+          </label>
+
+          <label className="flex flex-col text-gray-200 text-sm">
+            End Date
+            <input
+              type="date"
+              name="endDate"
+              value={formData.endDate}
+              onChange={handleChange}
+              className="mt-2 p-2.5 rounded-lg bg-white/10 border border-white/20 text-white focus:outline-none focus:ring-2 focus:ring-emerald-400"
+              required
+            />
+          </label>
+        </div>
+
+        <button
+          type="submit"
+          className="mt-6 py-2.5 bg-gradient-to-r from-emerald-500 to-green-600 text-white font-semibold rounded-lg shadow-md hover:shadow-[0_0_15px_#10b98180] hover:scale-105 transition-transform duration-300"
+        >
+          Add Challenge
+        </button>
+      </form>
+    </section>
+  );
+};
+
+export default AddChallenges;

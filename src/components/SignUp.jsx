@@ -160,7 +160,7 @@ const SignUp = () => {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-3 flex items-center text-white/70 hover:text-white transition"
+                  className="absolute inset-y-0 right-6 flex items-center text-white/70 hover:text-white transition"
                   tabIndex={-1}
                 >
                   {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
