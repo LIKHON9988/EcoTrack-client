@@ -3,7 +3,6 @@ import { Link, useNavigate, useLocation } from "react-router";
 import { AuthContext } from "../contexts/AuthContext";
 import { Eye, EyeOff } from "lucide-react";
 
-// Lightweight toast component
 const Toast = ({ message, type = "info", onClose }) => {
   if (!message) return null;
   const bg =
@@ -88,7 +87,6 @@ const SignIn = () => {
 
   return (
     <section className="relative min-h-screen bg-gradient-to-br from-[#050806] via-[#0b1410] to-[#051009] flex items-center justify-center overflow-hidden p-4 text-gray-100">
-      {/* Decorative Glow Orbs */}
       <div className="absolute inset-0">
         <div className="absolute -top-8 -left-8 w-40 h-40 md:w-64 md:h-64 bg-emerald-600/20 rounded-full blur-3xl" />
         <div className="absolute -bottom-10 -right-10 w-52 h-52 md:w-80 md:h-80 bg-green-500/10 rounded-full blur-3xl" />

@@ -2,14 +2,14 @@ import React, { useContext, useMemo, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router";
 import { AuthContext } from "../contexts/AuthContext";
 import { updateProfile } from "firebase/auth";
-import { Eye, EyeOff } from "lucide-react"; // 👁️ eye icons
+import { Eye, EyeOff } from "lucide-react";
 
 const SignUp = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { createUser, signInWithGoogle } = useContext(AuthContext);
   const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false); // 👁️ new state
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [toast, setToast] = useState({ message: "", type: "info" });
 
@@ -91,7 +91,6 @@ const SignUp = () => {
 
   return (
     <section className="relative min-h-screen bg-gradient-to-br from-[#050806] via-[#0b1410] to-[#051009] flex items-center justify-center overflow-hidden text-gray-100">
-      {/* Decorative Glow Orbs */}
       <div className="absolute inset-0">
         <div className="absolute -top-8 -left-8 w-40 h-40 md:w-64 md:h-64 bg-emerald-600/20 rounded-full blur-3xl" />
         <div className="absolute -bottom-10 -right-10 w-52 h-52 md:w-80 md:h-80 bg-green-500/10 rounded-full blur-3xl" />
@@ -141,7 +140,6 @@ const SignUp = () => {
               />
             </div>
 
-            {/* 👁️ Password field */}
             <div className="relative">
               <label className="block text-white/90 text-sm mb-1">
                 Password
@@ -234,7 +232,6 @@ const SignUp = () => {
         </div>
       </div>
 
-      {/* Toast */}
       {toast.message && (
         <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50">
           <div

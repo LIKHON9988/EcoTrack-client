@@ -54,7 +54,6 @@ const Navbar = () => {
   return (
     <div className="fixed top-0 left-0 w-full z-50 bg-white/10 backdrop-blur-sm shadow-sm">
       <div className="navbar w-12/12 md:w-11/12 mx-auto text-white">
-        {/* Left Section */}
         <div className="navbar-start">
           <div className="dropdown">
             <div
@@ -91,12 +90,10 @@ const Navbar = () => {
           </Link>
         </div>
 
-        {/* Center Section */}
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1 text-white">{links}</ul>
         </div>
 
-        {/* Right Section */}
         <div className="navbar-end flex items-center gap-3">
           {user ? (
             <div>

@@ -29,13 +29,10 @@ const Details = () => {
 
   return (
     <section className="relative min-h-screen bg-gradient-to-br from-[#050806] via-[#0b1410] to-[#051009] flex flex-col items-center py-12 px-4 md:px-6 overflow-hidden text-gray-100">
-      {/* Decorative Glow Orbs */}
       <div className="absolute top-[-8rem] left-[-8rem] w-[24rem] h-[24rem] bg-emerald-600/20 blur-[160px]  rounded-full" />
       <div className="absolute bottom-[-6rem] right-[-8rem] w-[26rem] h-[26rem] bg-green-500/10 blur-[180px] rounded-full" />
 
-      {/* Main Card */}
       <div className="relative max-w-5xl w-full bg-white/5 backdrop-blur-2xl mt-13 shadow-[0_0_50px_-10px_rgba(16,185,129,0.3)] rounded-[1.5rem] overflow-hidden border border-emerald-800/40">
-        {/* Top Image */}
         <div className="relative h-52 sm:h-64 md:h-[45vh] overflow-hidden">
           <img
             src={imageUrl}
@@ -53,17 +50,14 @@ const Details = () => {
           </div>
         </div>
 
-        {/* Body with blurred background image */}
         <div
           className="relative grid md:grid-cols-3 gap-6 sm:gap-8 p-6 sm:p-8 md:p-10 bg-cover bg-center"
           style={{
             backgroundImage: `url(${imageUrl})`,
           }}
         >
-          {/* Deep blur + dark overlay */}
           <div className="absolute inset-0 bg-black/70 backdrop-blur-3xl brightness-75"></div>
 
-          {/* Left Column */}
           <div className="md:col-span-2 space-y-4 sm:space-y-6 relative z-10">
             <h2 className="text-xl sm:text-2xl font-semibold text-emerald-400">
               Challenge Overview 🌱
@@ -94,9 +88,7 @@ const Details = () => {
             </div>
           </div>
 
-          {/* Right Column (Blurry Info Card) */}
           <div className="relative z-10 flex flex-col justify-between bg-white/10 backdrop-blur-2xl text-white rounded-2xl shadow-2xl p-4 sm:p-6 md:p-8 overflow-hidden border border-white/10">
-            {/* Soft glow background effect */}
             <div className="absolute -top-12 -right-12 w-32 h-32 bg-emerald-400/20 blur-3xl rounded-full"></div>
 
             <div className="relative">

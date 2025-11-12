@@ -20,7 +20,7 @@ const MyActivities = () => {
       method: "DELETE",
     });
     setActivities((prev) => prev.filter((a) => a._id !== id));
-    // Dispatch event for LiveStatistics immediate decrement
+
     try {
       const title = activity?.challenge?.title;
       if (title) {
@@ -33,7 +33,6 @@ const MyActivities = () => {
     }
   };
 
-  // Unified layout for logged-in and logged-out
   const renderEmptyState = () => (
     <div className="flex justify-center items-center col-span-full mt-10">
       <div className="bg-[#0b1a12]/50 backdrop-blur-md p-10 rounded-3xl shadow-lg border border-emerald-500/20 text-center max-w-md">

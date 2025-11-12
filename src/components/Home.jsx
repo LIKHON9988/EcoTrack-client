@@ -11,10 +11,10 @@ const Home = () => {
   return (
     <div className="bg-gradient-to-br from-[#050806] via-[#0b1410] to-[#051009]">
       <HeroPart></HeroPart>
-      {/* Live statistics above Active Challenges, dynamic from DB */}
+
       <LiveStatistics></LiveStatistics>
       <ActiveChallenge></ActiveChallenge>
-      {/* New sections (non-intrusive additions, no changes to existing behavior) */}
+
       <RecentTips></RecentTips>
       <UpcomingEvents></UpcomingEvents>
       <WhyGoGreen></WhyGoGreen>

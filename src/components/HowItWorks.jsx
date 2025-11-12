@@ -38,17 +38,24 @@ const HowItWorks = () => {
               key={idx}
               className="relative bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_0_20px_-5px_rgba(16,185,129,0.35)] p-6 overflow-hidden"
             >
-              {/* Background */}
               <div
-                className={`absolute inset-0 bg-center bg-cover opacity-35 ${idx % 3 === 0 ? "blur-sm" : idx % 3 === 1 ? "blur" : "blur-md"}`}
-                style={{ backgroundImage: `url(${bgImages[idx % bgImages.length]})` }}
+                className={`absolute inset-0 bg-center bg-cover opacity-35 ${
+                  idx % 3 === 0 ? "blur-sm" : idx % 3 === 1 ? "blur" : "blur-md"
+                }`}
+                style={{
+                  backgroundImage: `url(${bgImages[idx % bgImages.length]})`,
+                }}
               />
               <div className="relative z-10">
                 <div className="flex items-center gap-3">
                   <s.icon size={28} className="text-emerald-400" />
-                  <h3 className="text-lg font-semibold text-emerald-300">{s.title}</h3>
+                  <h3 className="text-lg font-semibold text-emerald-300">
+                    {s.title}
+                  </h3>
                 </div>
-                <p className="mt-3 text-sm md:text-base text-gray-200">{s.desc}</p>
+                <p className="mt-3 text-sm md:text-base text-gray-200">
+                  {s.desc}
+                </p>
                 <div className="absolute inset-0 pointer-events-none rounded-2xl border border-emerald-400/10" />
               </div>
             </div>

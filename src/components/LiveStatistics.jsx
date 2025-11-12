@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 
 const LiveStatistics = () => {
-  // Dynamic stats from the challenges catalog
   const [stats, setStats] = useState({
     waterWise: null,
     bikeToWork: null,
@@ -14,7 +13,6 @@ const LiveStatistics = () => {
     const DEFAULTS = { green: 4000, bike: 3000, water: 7000, total: 12 };
 
     const deriveCount = (item) => {
-      // Try common numeric fields
       const numericFields = [
         "joinCount",
         "participantsCount",
@@ -26,13 +24,13 @@ const LiveStatistics = () => {
         const v = item?.[f];
         if (typeof v === "number" && v > 0) return v;
       }
-      // Try array fields
+
       const arrayFields = ["participants", "joinedUsers", "members", "users"];
       for (const f of arrayFields) {
         const arr = item?.[f];
         if (Array.isArray(arr) && arr.length > 0) return arr.length;
       }
-      return null; // unknown
+      return null;
     };
 
     const loadAll = async () => {
@@ -41,33 +39,53 @@ const LiveStatistics = () => {
         const data = await res.json();
         const list = Array.isArray(data) ? data : [];
 
-        const getTitle = (item) => String(item?.title || item?.name || "").toLowerCase();
+        const getTitle = (item) =>
+          String(item?.title || item?.name || "").toLowerCase();
 
         const waterList = list.filter((it) => {
           const t = getTitle(it);
           return t.includes("water") && t.includes("wise");
         });
-        const waterCounts = waterList.map(deriveCount).filter((v) => typeof v === "number");
-        const water = waterCounts.length ? waterCounts.reduce((a, b) => a + b, 0) : null;
+        const waterCounts = waterList
+          .map(deriveCount)
+          .filter((v) => typeof v === "number");
+        const water = waterCounts.length
+          ? waterCounts.reduce((a, b) => a + b, 0)
+          : null;
 
         const bikeList = list.filter((it) => {
           const t = getTitle(it);
-          return t.includes("bike") && (t.includes("work") || t.includes("month"));
+          return (
+            t.includes("bike") && (t.includes("work") || t.includes("month"))
+          );
         });
-        const bikeCounts = bikeList.map(deriveCount).filter((v) => typeof v === "number");
-        const bike = bikeCounts.length ? bikeCounts.reduce((a, b) => a + b, 0) : null;
+        const bikeCounts = bikeList
+          .map(deriveCount)
+          .filter((v) => typeof v === "number");
+        const bike = bikeCounts.length
+          ? bikeCounts.reduce((a, b) => a + b, 0)
+          : null;
 
         const greenList = list.filter((it) => {
           const t = getTitle(it);
           return t.includes("green commute") || t.includes("commute week");
         });
-        const greenCounts = greenList.map(deriveCount).filter((v) => typeof v === "number");
-        const green = greenCounts.length ? greenCounts.reduce((a, b) => a + b, 0) : null;
+        const greenCounts = greenList
+          .map(deriveCount)
+          .filter((v) => typeof v === "number");
+        const green = greenCounts.length
+          ? greenCounts.reduce((a, b) => a + b, 0)
+          : null;
 
         const total = list.length;
 
         // Fallbacks for the three featured cards ONLY (requested values)
-        const fallback = { water: DEFAULTS.water, bike: DEFAULTS.bike, green: DEFAULTS.green, total: DEFAULTS.total };
+        const fallback = {
+          water: DEFAULTS.water,
+          bike: DEFAULTS.bike,
+          green: DEFAULTS.green,
+          total: DEFAULTS.total,
+        };
 
         setStats({
           // Order: Green Commute Week, Bike-to-Work Month, Water-Wise Week
@@ -96,8 +114,13 @@ const LiveStatistics = () => {
     const normalize = (t) => String(t || "").toLowerCase();
     const mapToKey = (title) => {
       const t = normalize(title);
-      if (t.includes("green commute") || (t.includes("commute") && t.includes("week"))) return "greenCommute";
-      if (t.includes("bike") && (t.includes("work") || t.includes("month"))) return "bikeToWork";
+      if (
+        t.includes("green commute") ||
+        (t.includes("commute") && t.includes("week"))
+      )
+        return "greenCommute";
+      if (t.includes("bike") && (t.includes("work") || t.includes("month")))
+        return "bikeToWork";
       if (t.includes("water") && t.includes("wise")) return "waterWise";
       return null;
     };
@@ -114,7 +137,8 @@ const LiveStatistics = () => {
       if (!key) return;
       setStats((prev) => ({
         ...prev,
-        [key]: typeof prev[key] === "number" && prev[key] > 0 ? prev[key] - 1 : 0,
+        [key]:
+          typeof prev[key] === "number" && prev[key] > 0 ? prev[key] - 1 : 0,
       }));
     };
     window.addEventListener("eco:challenge-joined", onJoined);
@@ -160,7 +184,9 @@ const LiveStatistics = () => {
         <h2 className="text-2xl md:text-3xl font-bold mb-2 text-emerald-300 text-center drop-shadow-md">
           Live Community Statistics
         </h2>
-        <p className="text-center text-gray-300 mb-6">Together we’re building a cleaner, greener future</p>
+        <p className="text-center text-gray-300 mb-6">
+          Together we’re building a cleaner, greener future
+        </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {cards.map((c, idx) => (
             <div
@@ -172,7 +198,9 @@ const LiveStatistics = () => {
                 <span className="bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
                   {c.value == null ? "—" : Math.round(c.value).toLocaleString()}
                 </span>
-                <span className="text-base md:text-lg text-emerald-200">{c.suffix}</span>
+                <span className="text-base md:text-lg text-emerald-200">
+                  {c.suffix}
+                </span>
               </h3>
               <div className="mt-3 h-px w-full bg-gradient-to-r from-emerald-500/30 via-emerald-300/20 to-teal-400/30" />
               <p className="mt-2 text-xs text-gray-400 text-center">{c.desc}</p>
