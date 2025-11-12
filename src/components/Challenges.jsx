@@ -9,7 +9,6 @@ const Challenges = () => {
   const [joinedIds, setJoinedIds] = useState([]);
   const navigate = useNavigate();
 
-  // Load user’s joined challenges
   useEffect(() => {
     if (user?.email) {
       fetch(`http://localhost:3000/activities?email=${user.email}`)
@@ -22,7 +21,6 @@ const Challenges = () => {
     }
   }, [user]);
 
-  // Handle Join
   const handleJoin = async (challenge) => {
     if (!user) {
       navigate("/signIn");
@@ -38,7 +36,7 @@ const Challenges = () => {
 
       if (res.ok) {
         setJoinedIds([...joinedIds, challenge._id]);
-        // Dispatch event for LiveStatistics immediate update
+
         try {
           window.dispatchEvent(
             new CustomEvent("eco:challenge-joined", {
@@ -57,7 +55,6 @@ const Challenges = () => {
     }
   };
 
-  // Handle Delete
   const handleDelete = async (id) => {
     const confirmDelete = window.confirm(
       "Are you sure you want to delete this challenge?"
@@ -102,7 +99,6 @@ const Challenges = () => {
               key={challenge._id}
               className="relative rounded-2xl overflow-hidden border border-white/10 bg-white/5 backdrop-blur-xl shadow-[0_0_15px_1px_rgba(16,185,129,0.35)] transition-transform duration-500 hover:scale-105 group"
             >
-              {/* Image Section */}
               <div className="relative overflow-hidden">
                 <img
                   src={challenge.imageUrl}
@@ -111,7 +107,6 @@ const Challenges = () => {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
 
-                {/* ✅ Delete Button (now visible) */}
                 <button
                   onClick={() => handleDelete(challenge._id)}
                   className="absolute top-3 right-3 z-20 text-xs sm:text-sm font-semibold text-red-400 hover:text-red-300 bg-black/40 backdrop-blur-md px-3 py-1 rounded-full border border-red-400/20 transition duration-300 hover:bg-red-500/10"
@@ -120,7 +115,6 @@ const Challenges = () => {
                 </button>
               </div>
 
-              {/* Info Section */}
               <div className="absolute bottom-0 w-full p-4 sm:p-5 bg-white/15 backdrop-blur-2xl border-t border-white/10">
                 <h3 className="text-base sm:text-lg font-semibold text-emerald-300 truncate">
                   {challenge.title}
@@ -129,7 +123,6 @@ const Challenges = () => {
                   {challenge.category}
                 </p>
 
-                {/* Buttons */}
                 <div className="mt-4 flex flex-wrap justify-center sm:justify-start gap-3">
                   <Link
                     to={`/challengesDetail/${challenge._id}`}
