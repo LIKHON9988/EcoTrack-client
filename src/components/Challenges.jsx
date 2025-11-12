@@ -38,6 +38,16 @@ const Challenges = () => {
 
       if (res.ok) {
         setJoinedIds([...joinedIds, challenge._id]);
+        // Dispatch event for LiveStatistics immediate update
+        try {
+          window.dispatchEvent(
+            new CustomEvent("eco:challenge-joined", {
+              detail: { title: challenge.title },
+            })
+          );
+        } catch (e) {
+          console.warn("Event dispatch failed:", e);
+        }
       } else {
         const msg = await res.json();
         alert(msg.message || "Failed to join");

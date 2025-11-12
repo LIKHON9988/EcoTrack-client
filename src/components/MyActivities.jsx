@@ -14,11 +14,23 @@ const MyActivities = () => {
     }
   }, [user]);
 
-  const handleCancel = async (id) => {
+  const handleCancel = async (activity) => {
+    const id = activity._id;
     await fetch(`http://localhost:3000/activities/${id}`, {
       method: "DELETE",
     });
     setActivities((prev) => prev.filter((a) => a._id !== id));
+    // Dispatch event for LiveStatistics immediate decrement
+    try {
+      const title = activity?.challenge?.title;
+      if (title) {
+        window.dispatchEvent(
+          new CustomEvent("eco:challenge-canceled", { detail: { title } })
+        );
+      }
+    } catch (e) {
+      console.warn("Event dispatch failed:", e);
+    }
   };
 
   // Unified layout for logged-in and logged-out
@@ -45,7 +57,6 @@ const MyActivities = () => {
 
   return (
     <section className="relative min-h-screen bg-gradient-to-br from-[#050806] via-[#0b1410] to-[#051009] pt-20 pb-16 px-4 text-gray-100 flex flex-col">
-      {/* Header */}
       <div className="w-11/12 mx-auto text-center mb-12">
         <h1 className="text-4xl sm:text-5xl font-bold text-emerald-400 mb-4 drop-shadow-lg">
           🌱 My Eco Activities
@@ -55,7 +66,6 @@ const MyActivities = () => {
         </p>
       </div>
 
-      {/* Activity Cards Grid */}
       <div className="w-11/12  mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         {!user || activities.length === 0
           ? renderEmptyState()
@@ -121,7 +131,7 @@ const MyActivities = () => {
                           : "Ongoing"}
                       </p>
                       <button
-                        onClick={() => handleCancel(activity._id)}
+                        onClick={() => handleCancel(activity)}
                         className="px-4 py-1 rounded-full text-sm font-medium bg-red-500/30 hover:bg-red-500/60 text-red-200 hover:text-white transition duration-300"
                       >
                         Cancel
