@@ -26,7 +26,7 @@ const bullets = [
 
 const WhyGoGreen = () => {
   return (
-    <section className="py-12 px-4 md:px-12 text-center bg-[#020d08] text-white">
+    <section className="py-12 px-4 md:px-12 text-center  text-white">
       <div className="max-w-2xl mx-auto mb-8">
         <h2 className="text-3xl md:text-4xl font-extrabold mb-3 text-emerald-400">
           Why Go Green?
