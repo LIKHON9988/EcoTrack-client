@@ -44,7 +44,7 @@ const Profile = () => {
     try {
       await logOut();
       toast.success("Logged out successfully!");
-      setTimeout(() => navigate("/"), 500); // navigate to home after logout
+      setTimeout(() => navigate("/"), 500);
     } catch (err) {
       console.error("Logout failed:", err);
       toast.error("Logout failed.");
@@ -66,16 +66,13 @@ const Profile = () => {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-[#050806] via-[#0b1410] to-[#051009] text-gray-100 overflow-hidden">
-      {/* glowing background */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute -top-12 -left-12 w-56 h-56 bg-emerald-600/20 rounded-full blur-3xl animate-pulse" />
         <div className="absolute -bottom-16 -right-16 w-72 h-72 bg-green-500/10 rounded-full blur-3xl animate-pulse" />
       </div>
 
-      {/* profile card */}
       <div className="relative z-10 w-full max-w-md">
         <div className="bg-white/5 backdrop-blur-2xl border border-white/10 rounded-2xl p-6 shadow-[0_0_40px_-10px_rgba(16,185,129,0.3)] text-center transition-all hover:shadow-[0_0_45px_-5px_rgba(16,185,129,0.5)]">
-          {/* profile image */}
           <div className="relative flex justify-center">
             {formData.photoURL || user?.photoURL ? (
               <img
@@ -90,7 +87,6 @@ const Profile = () => {
             )}
           </div>
 
-          {/* editable area */}
           {isEditing ? (
             <div className="mt-5 space-y-3">
               <input
@@ -140,7 +136,6 @@ const Profile = () => {
             </>
           )}
 
-          {/* user info & stats */}
           <div className="mt-6 border-t border-white/10"></div>
           <div className="mt-5 grid grid-cols-2 gap-4 text-sm text-gray-300">
             <div className="flex flex-col items-center">
@@ -189,7 +184,6 @@ const Profile = () => {
         </div>
       </div>
 
-      {/* Toastify container */}
       <ToastContainer
         position="top-right"
         autoClose={3000}
