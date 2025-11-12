@@ -7,6 +7,7 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
+  updateProfile, // ✅ Added
 } from "firebase/auth";
 import { auth } from "../Firebase/firebaseConfig";
 
@@ -36,15 +37,27 @@ const AuthProvider = ({ children }) => {
     return signOut(auth);
   };
 
+  const updateUserProfile = (name, photoURL) => {
+    if (!auth.currentUser) return Promise.reject("No user logged in.");
+    setLoading(true);
+    return updateProfile(auth.currentUser, {
+      displayName: name,
+      photoURL: photoURL,
+    })
+      .then(() => {
+        // Update local state for instant UI reflection
+        setUser({ ...auth.currentUser });
+      })
+      .finally(() => setLoading(false));
+  };
+
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       setLoading(false);
     });
 
-    return () => {
-      unSubscribe();
-    };
+    return () => unSubscribe();
   }, []);
 
   const authInfu = {
@@ -52,9 +65,11 @@ const AuthProvider = ({ children }) => {
     signInUser,
     signInWithGoogle,
     logOut,
+    updateUserProfile, // ✅ Added
     user,
     loading,
   };
+
   return (
     <AuthContext.Provider value={authInfu}>{children}</AuthContext.Provider>
   );

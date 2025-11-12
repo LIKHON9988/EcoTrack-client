@@ -3,6 +3,8 @@ import { Link, useNavigate, useLocation } from "react-router";
 import { AuthContext } from "../contexts/AuthContext";
 import { updateProfile } from "firebase/auth";
 import { Eye, EyeOff } from "lucide-react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -11,7 +13,6 @@ const SignUp = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [toast, setToast] = useState({ message: "", type: "info" });
 
   const redirectTo = useMemo(() => {
     const statePath = location.state?.from?.pathname;
@@ -29,13 +30,12 @@ const SignUp = () => {
     },
     { label: "Minimum length 6 characters", test: (v) => v.length >= 6 },
   ];
+
   const validations = passwordValidators.map((v) => ({
     label: v.label,
     ok: v.test(password),
   }));
   const isPasswordValid = validations.every((v) => v.ok);
-
-  const showToast = (message, type = "info") => setToast({ message, type });
 
   const handleCreatUser = async (e) => {
     e.preventDefault();
@@ -47,11 +47,11 @@ const SignUp = () => {
     const pwd = password;
 
     if (!name || !email || !pwd) {
-      showToast("Please fill out all required fields.", "error");
+      toast.error("Please fill out all required fields.");
       return;
     }
     if (!isPasswordValid) {
-      showToast("Password does not meet requirements.", "error");
+      toast.error("Password does not meet requirements.");
       return;
     }
 
@@ -62,14 +62,11 @@ const SignUp = () => {
         displayName: name,
         photoURL: photoUrl || undefined,
       });
-      showToast("Registered successfully!", "success");
+      toast.success("Registered successfully!");
       setTimeout(() => navigate(redirectTo, { replace: true }), 500);
     } catch (error) {
       console.log(error);
-      showToast(
-        error?.message || "Failed to register. Please try again.",
-        "error"
-      );
+      toast.error(error?.message || "Failed to register. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -79,11 +76,11 @@ const SignUp = () => {
     try {
       setLoading(true);
       await signInWithGoogle();
-      showToast("Registered with Google!", "success");
+      toast.success("Registered with Google!");
       setTimeout(() => navigate(redirectTo, { replace: true }), 400);
     } catch (error) {
       console.log(error);
-      showToast(error?.message || "Google register failed.", "error");
+      toast.error(error?.message || "Google register failed.");
     } finally {
       setLoading(false);
     }
@@ -232,27 +229,18 @@ const SignUp = () => {
         </div>
       </div>
 
-      {toast.message && (
-        <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50">
-          <div
-            className={`text-white px-4 py-2 rounded-xl shadow-xl ${
-              toast.type === "error"
-                ? "bg-red-500/90"
-                : toast.type === "success"
-                ? "bg-emerald-500/90"
-                : "bg-blue-500/90"
-            } backdrop-blur-sm flex items-center gap-2`}
-          >
-            <span>{toast.message}</span>
-            <button
-              onClick={() => setToast({ message: "", type: "info" })}
-              className="ml-2 text-white/80 hover:text-white"
-            >
-              ✕
-            </button>
-          </div>
-        </div>
-      )}
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
     </section>
   );
 };

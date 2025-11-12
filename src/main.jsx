@@ -14,6 +14,8 @@ import AuthProvider from "./contexts/AuthProvider";
 import Details from "./components/Details";
 import AddChallenges from "./components/AddChallenges";
 import UpdateChallenge from "./components/UpdateChallenge";
+import Profile from "./components/Profile";
+import PrivateRoute from "./components/PrivateRoute";
 
 const router = createBrowserRouter([
   {
@@ -58,11 +60,27 @@ const router = createBrowserRouter([
       },
       {
         path: "/addChallenges",
-        element: <AddChallenges></AddChallenges>,
+        element: (
+          <PrivateRoute>
+            <AddChallenges></AddChallenges>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/updateChallenge/:id",
-        element: <UpdateChallenge></UpdateChallenge>,
+        element: (
+          <PrivateRoute>
+            <UpdateChallenge></UpdateChallenge>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/profile",
+        element: (
+          <PrivateRoute>
+            <Profile></Profile>
+          </PrivateRoute>
+        ),
       },
     ],
   },

@@ -2,38 +2,14 @@ import React, { useContext, useState, useMemo } from "react";
 import { Link, useNavigate, useLocation } from "react-router";
 import { AuthContext } from "../contexts/AuthContext";
 import { Eye, EyeOff } from "lucide-react";
-
-const Toast = ({ message, type = "info", onClose }) => {
-  if (!message) return null;
-  const bg =
-    type === "error"
-      ? "bg-red-500/90"
-      : type === "success"
-      ? "bg-emerald-500/90"
-      : "bg-blue-500/90";
-  return (
-    <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50">
-      <div
-        className={`text-white px-4 py-2 rounded-xl shadow-xl ${bg} backdrop-blur-sm flex items-center gap-2`}
-      >
-        <span>{message}</span>
-        <button
-          onClick={onClose}
-          className="ml-2 text-white/80 hover:text-white"
-        >
-          ✕
-        </button>
-      </div>
-    </div>
-  );
-};
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const SignIn = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { signInUser, signInWithGoogle } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
-  const [toast, setToast] = useState({ message: "", type: "info" });
   const [showPassword, setShowPassword] = useState(false);
 
   const redirectTo = useMemo(() => {
@@ -43,18 +19,16 @@ const SignIn = () => {
     return statePath || qp || "/";
   }, [location]);
 
-  const showToast = (message, type = "info") => setToast({ message, type });
-
   const handleGoogle = () => {
     setLoading(true);
     signInWithGoogle()
       .then(() => {
-        showToast("Logged in with Google!", "success");
+        toast.success("Logged in with Google!");
         setTimeout(() => navigate(redirectTo, { replace: true }), 400);
       })
       .catch((error) => {
         console.log(error);
-        showToast(error?.message || "Google login failed.", "error");
+        toast.error(error?.message || "Google login failed.");
       })
       .finally(() => setLoading(false));
   };
@@ -66,21 +40,18 @@ const SignIn = () => {
     const email = formData.get("email")?.toString().trim();
     const password = formData.get("password")?.toString();
     if (!email || !password) {
-      showToast("Please enter your email and password.", "error");
+      toast.error("Please enter your email and password.");
       return;
     }
     setLoading(true);
     signInUser(email, password)
       .then(() => {
-        showToast("Logged in successfully!", "success");
+        toast.success("Logged in successfully!");
         setTimeout(() => navigate(redirectTo, { replace: true }), 400);
       })
       .catch((error) => {
         console.log(error);
-        showToast(
-          error?.message || "Failed to login. Please try again.",
-          "error"
-        );
+        toast.error(error?.message || "Failed to login. Please try again.");
       })
       .finally(() => setLoading(false));
   };
@@ -187,10 +158,17 @@ const SignIn = () => {
         </div>
       </div>
 
-      <Toast
-        message={toast.message}
-        type={toast.type}
-        onClose={() => setToast({ message: "", type: "info" })}
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
       />
     </section>
   );

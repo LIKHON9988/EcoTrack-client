@@ -32,24 +32,56 @@ const Navbar = () => {
           Challenges
         </NavLink>
       </li>
-      <li>
-        <NavLink
-          to={"/myActivities"}
-          className="hover:text-emerald-300 transition-colors"
-        >
-          My Activities
-        </NavLink>
-      </li>
-      <li>
-        <NavLink
-          to={"/addChallenges"}
-          className="hover:text-emerald-300 transition-colors"
-        >
-          Add Challenge
-        </NavLink>
-      </li>
+
+      {!user ? (
+        ""
+      ) : (
+        <li>
+          <NavLink
+            to={"/myActivities"}
+            className="hover:text-emerald-300 transition-colors"
+          >
+            My Activities
+          </NavLink>
+        </li>
+      )}
+
+      {!user ? (
+        ""
+      ) : (
+        <li>
+          <NavLink
+            to={"/addChallenges"}
+            className="hover:text-emerald-300 transition-colors"
+          >
+            Add Challenge
+          </NavLink>
+        </li>
+      )}
     </>
   );
+
+  const renderUserAvatar = () => {
+    if (user?.photoURL) {
+      return (
+        <img
+          alt="User Avatar"
+          src={user.photoURL}
+          className="w-10 h-10 rounded-full object-cover"
+        />
+      );
+    } else {
+      const displayLetter =
+        user?.displayName?.charAt(0)?.toUpperCase() ||
+        user?.email?.charAt(0)?.toUpperCase() ||
+        "?";
+      return (
+        <div className="w-10 h-10 rounded-full bg-emerald-500 flex items-center justify-center text-white font-semibold text-lg">
+          {displayLetter}
+        </div>
+      );
+    }
+  };
 
   return (
     <div className="fixed top-0 left-0 w-full z-50 bg-white/10 backdrop-blur-sm shadow-sm">
@@ -103,23 +135,28 @@ const Navbar = () => {
                   role="button"
                   className="btn btn-ghost btn-circle avatar"
                 >
-                  <div className="w-10 rounded-full">
-                    <img
-                      alt="User Avatar"
-                      src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
-                    />
+                  <div className="w-10 rounded-full overflow-hidden">
+                    {renderUserAvatar()}
                   </div>
                 </div>
                 <ul
                   tabIndex="-1"
                   className="menu menu-sm dropdown-content rounded-box z-1 mt-3 w-52 p-3 bg-white/10 backdrop-blur-sm shadow-lg text-white"
                 >
-                  <li className="mb-4">
-                    <a className="justify-between">
-                      Profile
-                      <span className="badge">New</span>
-                    </a>
-                  </li>
+                  <Link to={"/profile"}>
+                    <li className="mb-3">
+                      <a className="justify-between">
+                        Profile
+                        <span className="badge">New</span>
+                      </a>
+                    </li>
+                  </Link>
+
+                  <Link to={"/myActivities"}>
+                    <li className="mb-4">
+                      <a>My Activities</a>
+                    </li>
+                  </Link>
 
                   <li>
                     <button
