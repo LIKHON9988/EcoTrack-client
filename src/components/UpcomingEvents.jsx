@@ -64,7 +64,6 @@ const UpcomingEvents = () => {
                 key={ev._id || idx}
                 className="group relative rounded-2xl overflow-hidden border border-emerald-400/20 shadow-[0_8px_25px_-8px_rgba(16,185,129,0.35)] hover:shadow-[0_15px_40px_-10px_rgba(16,185,129,0.55)] transition-all duration-500 hover:-translate-y-1"
               >
-                {/* Background Image */}
                 <div
                   className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
                   style={{
@@ -74,17 +73,14 @@ const UpcomingEvents = () => {
                   }}
                 />
 
-                {/* Gradient Overlay for readability */}
                 <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-transparent" />
 
-                {/* Glow Decoration */}
                 <div
                   className={`absolute -bottom-10 -left-10 w-32 h-32 rounded-full blur-2xl bg-gradient-to-tr ${
                     bgGlow[idx % bgGlow.length]
                   }`}
                 />
 
-                {/* Content Section (Right Side) */}
                 <div className="relative z-10 flex flex-col justify-between h-full backdrop-blur-md bg-black/30 p-6 md:p-8 md:w-[55%] ml-auto rounded-l-3xl transition-all duration-500 group-hover:bg-black/40">
                   <div>
                     <h3 className="text-lg md:text-xl font-semibold text-emerald-300 line-clamp-2 drop-shadow-sm">
@@ -124,7 +120,6 @@ const UpcomingEvents = () => {
                   </div>
                 </div>
 
-                {/* Subtle border on hover */}
                 <div className="absolute inset-0 pointer-events-none rounded-2xl ring-0 group-hover:ring-1 ring-emerald-400/30 transition-all duration-500" />
               </article>
             ))}
