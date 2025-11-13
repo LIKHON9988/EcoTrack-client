@@ -80,9 +80,9 @@ const Challenges = () => {
   };
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-br from-[#050806] via-[#0b1410] to-[#051009] text-white py-16 px-4 sm:px-5">
+    <div className="relative min-h-screen bg-gradient-to-br from-[#050806] via-[#0b1410] to-[#051009] text-white py-8 px-4 sm:px-5">
       <div className="w-11/12 mx-auto text-center mb-12 mt-20">
-        <h1 className="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-green-300 to-teal-400 drop-shadow-lg">
+        <h1 className="text-4xl sm:text-5xl font-extrabold text-transparent  bg-clip-text bg-gradient-to-r from-emerald-400 via-green-300 to-teal-400 drop-shadow-lg">
           🌿 Eco Challenges
         </h1>
         <p className="text-gray-300 text-base sm:text-lg mt-3">

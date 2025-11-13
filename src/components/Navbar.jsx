@@ -39,7 +39,7 @@ const Navbar = () => {
         <li>
           <NavLink
             to={"/myActivities"}
-            className="hover:text-emerald-300 transition-colors"
+            className="hover:text-primary transition-colors"
           >
             My Activities
           </NavLink>
@@ -117,7 +117,7 @@ const Navbar = () => {
           </div>
           <Link to={"/"}>
             <p className="hover:cursor-pointer text-2xl font-bold text-white">
-              Eco<span className="text-emerald-300">Track</span>
+              Eco<span className="text-primary">Track</span>
             </p>
           </Link>
         </div>
@@ -145,16 +145,16 @@ const Navbar = () => {
                 >
                   <Link to={"/profile"}>
                     <li className="mb-3">
-                      <a className="justify-between">
+                      <p className="justify-between">
                         Profile
                         <span className="badge">New</span>
-                      </a>
+                      </p>
                     </li>
                   </Link>
 
                   <Link to={"/myActivities"}>
                     <li className="mb-4">
-                      <a>My Activities</a>
+                      <p>My Activities</p>
                     </li>
                   </Link>
 

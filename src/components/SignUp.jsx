@@ -235,9 +235,6 @@ const SignUp = () => {
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
         pauseOnHover
         theme="dark"
       />

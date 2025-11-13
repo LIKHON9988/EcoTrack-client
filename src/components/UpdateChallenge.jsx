@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router";
 import { AuthContext } from "../contexts/AuthContext";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const UpdateChallenge = () => {
   const { user } = useContext(AuthContext);
-  const { id } = useParams(); // get challenge id from URL
+  const { id } = useParams();
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -19,7 +21,6 @@ const UpdateChallenge = () => {
     endDate: "",
   });
 
-  // Fetch existing challenge
   useEffect(() => {
     const fetchChallenge = async () => {
       try {
@@ -40,10 +41,12 @@ const UpdateChallenge = () => {
         });
       } catch (err) {
         console.error(err);
-        alert("Error fetching challenge data");
+        toast.error("❌ Failed to load challenge data!", {
+          position: "top-right",
+          theme: "colored",
+        });
       }
     };
-
     fetchChallenge();
   }, [id]);
 
@@ -62,24 +65,42 @@ const UpdateChallenge = () => {
 
     try {
       const res = await fetch(`http://localhost:3000/challenges/${id}`, {
-        method: "PUT", // update method
+        method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updatedChallenge),
       });
 
       if (!res.ok) throw new Error("Failed to update challenge");
 
-      alert("✅ Challenge updated successfully!");
-      navigate("/my-challenges"); // redirect after update
+      toast.success("✅ Challenge updated successfully!", {
+        position: "top-right",
+        theme: "colored",
+        style: { backgroundColor: "#10b981", color: "#fff" },
+      });
+
+      setTimeout(() => navigate("/challenges"), 2000);
     } catch (err) {
       console.error(err);
-      alert("Something went wrong. Try again!");
+      toast.error("⚠️ Something went wrong. Try again.", {
+        position: "top-right",
+        theme: "colored",
+      });
     }
   };
 
   return (
     <section className="min-h-screen bg-gradient-to-br from-[#050806] via-[#0b1410] to-[#051009] flex flex-col items-center py-24 px-4 text-gray-100">
-      <h1 className="text-4xl sm:text-5xl font-bold text-emerald-400 mb-10 drop-shadow-lg text-center">
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        pauseOnHover
+        theme="dark"
+      />
+
+      <h1 className="text-4xl sm:text-5xl font-extrabold text-transparent mb-15 bg-clip-text bg-gradient-to-r from-emerald-400 via-green-300 to-teal-400 drop-shadow-lg">
         🌿 Update Challenge
       </h1>
 
@@ -87,7 +108,6 @@ const UpdateChallenge = () => {
         onSubmit={handleUpdate}
         className="w-full max-w-2xl bg-white/5 backdrop-blur-2xl border border-emerald-500/60 rounded-2xl shadow-[0_0_20px_#10b98140] p-6 sm:p-8 flex flex-col gap-4 transition-all duration-300"
       >
-        {/* Reuse the same inputs as AddChallenges */}
         <label className="flex flex-col text-gray-200 text-sm">
           Title
           <input
