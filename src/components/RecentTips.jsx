@@ -17,7 +17,9 @@ const RecentTips = () => {
   useEffect(() => {
     const fetchTips = async () => {
       try {
-        const res = await fetch("http://localhost:3000/tips");
+        const res = await fetch(
+          "https://eco-track-server-nine.vercel.app/tips"
+        );
         if (!res.ok) throw new Error("Failed to fetch tips");
         const data = await res.json();
         setTips(data);

@@ -35,11 +35,14 @@ const AddChallenges = () => {
     };
 
     try {
-      const res = await fetch("http://localhost:3000/challenges", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newChallenge),
-      });
+      const res = await fetch(
+        "https://eco-track-server-nine.vercel.app/challenges",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(newChallenge),
+        }
+      );
 
       if (!res.ok) throw new Error("Failed to add challenge");
 

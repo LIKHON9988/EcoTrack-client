@@ -24,7 +24,9 @@ const UpdateChallenge = () => {
   useEffect(() => {
     const fetchChallenge = async () => {
       try {
-        const res = await fetch(`http://localhost:3000/challenges/${id}`);
+        const res = await fetch(
+          `https://eco-track-server-nine.vercel.app/challenges/${id}`
+        );
         if (!res.ok) throw new Error("Failed to fetch challenge");
 
         const data = await res.json();
@@ -64,11 +66,14 @@ const UpdateChallenge = () => {
     };
 
     try {
-      const res = await fetch(`http://localhost:3000/challenges/${id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updatedChallenge),
-      });
+      const res = await fetch(
+        `https://eco-track-server-nine.vercel.app/challenges/${id}`,
+        {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(updatedChallenge),
+        }
+      );
 
       if (!res.ok) throw new Error("Failed to update challenge");
 

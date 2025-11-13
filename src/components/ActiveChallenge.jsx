@@ -9,7 +9,9 @@ const ActiveChallenge = () => {
   useEffect(() => {
     const fetchChallenges = async () => {
       try {
-        const res = await fetch("http://localhost:3000/active-challenges");
+        const res = await fetch(
+          "https://eco-track-server-nine.vercel.app/active-challenges"
+        );
         if (!res.ok) throw new Error("Server not responding");
         const data = await res.json();
         setChallenges(data);

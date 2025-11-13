@@ -13,7 +13,9 @@ const Challenges = () => {
 
   useEffect(() => {
     if (user?.email) {
-      fetch(`http://localhost:3000/activities?email=${user.email}`)
+      fetch(
+        `https://eco-track-server-nine.vercel.app/activities?email=${user.email}`
+      )
         .then((res) => res.json())
         .then((data) => {
           const ids = data.map((a) => a.challenge._id);
@@ -34,11 +36,14 @@ const Challenges = () => {
     }
 
     try {
-      const res = await fetch("http://localhost:3000/activities", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userEmail: user.email, challenge }),
-      });
+      const res = await fetch(
+        "https://eco-track-server-nine.vercel.app/activities",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ userEmail: user.email, challenge }),
+        }
+      );
 
       if (res.ok) {
         setJoinedIds([...joinedIds, challenge._id]);
@@ -70,9 +75,12 @@ const Challenges = () => {
     if (!confirmDelete) return;
 
     try {
-      const res = await fetch(`http://localhost:3000/challenges/${id}`, {
-        method: "DELETE",
-      });
+      const res = await fetch(
+        `https://eco-track-server-nine.vercel.app/challenges/${id}`,
+        {
+          method: "DELETE",
+        }
+      );
 
       if (res.ok) {
         setChallenges((prev) => prev.filter((ch) => ch._id !== id));

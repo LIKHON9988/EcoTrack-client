@@ -14,7 +14,7 @@ const UpcomingEvents = () => {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:3000/upcoming-events")
+    fetch("https://eco-track-server-nine.vercel.app/upcoming-events")
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch events");
         return res.json();

@@ -16,6 +16,7 @@ import AddChallenges from "./components/AddChallenges";
 import UpdateChallenge from "./components/UpdateChallenge";
 import Profile from "./components/Profile";
 import PrivateRoute from "./components/PrivateRoute";
+import ErrorPage from "./components/ErrorPage";
 
 const router = createBrowserRouter([
   {
@@ -28,7 +29,8 @@ const router = createBrowserRouter([
       },
       {
         path: "/challenges",
-        loader: () => fetch("http://localhost:3000/challenges"),
+        loader: () =>
+          fetch("https://eco-track-server-nine.vercel.app/challenges"),
         element: <Challenges></Challenges>,
       },
       {
@@ -50,13 +52,17 @@ const router = createBrowserRouter([
       {
         path: "/challengesDetail/:id",
         loader: ({ params }) =>
-          fetch(`http://localhost:3000/challenges/${params.id}`),
+          fetch(
+            `https://eco-track-server-nine.vercel.app/challenges/${params.id}`
+          ),
         element: <Details></Details>,
       },
       {
         path: "/challengesActivities/:id",
         loader: ({ params }) =>
-          fetch(`http://localhost:3000/challenges/${params.id}`),
+          fetch(
+            `https://eco-track-server-nine.vercel.app/challenges/${params.id}`
+          ),
       },
       {
         path: "/addChallenges",
@@ -83,6 +89,10 @@ const router = createBrowserRouter([
         ),
       },
     ],
+  },
+  {
+    path: "/*",
+    element: <ErrorPage></ErrorPage>,
   },
 ]);
 

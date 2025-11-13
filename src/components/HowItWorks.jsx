@@ -20,9 +20,9 @@ const steps = [
 ];
 
 const bgImages = [
-  "https://images.unsplash.com/photo-1469474968028-56623f02e42e?q=80&w=1200&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1500534314209-a26db0f5c2bb?q=80&w=1200&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1200&auto=format&fit=crop",
+  "https://img.freepik.com/free-photo/holographic-rainbow-background_23-2151834737.jpg?semt=ais_hybrid&w=740&q=80",
+  "https://img.freepik.com/premium-photo/painting-man-swimming-body-water_1153744-9503.jpg?semt=ais_hybrid&w=740&q=80",
+  "https://images8.alphacoders.com/136/1365497.png",
 ];
 
 const HowItWorks = () => {
@@ -46,7 +46,7 @@ const HowItWorks = () => {
                   backgroundImage: `url(${bgImages[idx % bgImages.length]})`,
                 }}
               />
-              <div className="relative z-10">
+              <div className="relative z-10 p-3">
                 <div className="flex items-center gap-3">
                   <s.icon size={28} className="text-emerald-400" />
                   <h3 className="text-lg font-semibold text-emerald-300">

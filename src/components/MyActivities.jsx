@@ -7,7 +7,9 @@ const MyActivities = () => {
 
   useEffect(() => {
     if (user?.email) {
-      fetch(`http://localhost:3000/activities?email=${user.email}`)
+      fetch(
+        `https://eco-track-server-nine.vercel.app/activities?email=${user.email}`
+      )
         .then((res) => res.json())
         .then((data) => setActivities(data))
         .catch((err) => console.error(err));
@@ -16,7 +18,7 @@ const MyActivities = () => {
 
   const handleCancel = async (activity) => {
     const id = activity._id;
-    await fetch(`http://localhost:3000/activities/${id}`, {
+    await fetch(`https://eco-track-server-nine.vercel.app/activities/${id}`, {
       method: "DELETE",
     });
     setActivities((prev) => prev.filter((a) => a._id !== id));
@@ -79,7 +81,6 @@ const MyActivities = () => {
                   key={challenge._id}
                   className="relative bg-[#0b1a12]/70 rounded-3xl shadow-lg backdrop-blur-md border border-emerald-500/20 hover:shadow-emerald-400/40 transition-transform duration-300 hover:-translate-y-1 hover:scale-[1.02] flex flex-col"
                 >
-                  {/* Image on Top */}
                   {challenge.image && (
                     <img
                       src={challenge.image}
@@ -88,7 +89,6 @@ const MyActivities = () => {
                     />
                   )}
 
-                  {/* Card Content */}
                   <div className="p-5 flex flex-col gap-3 flex-1">
                     <h2 className="text-xl font-semibold text-emerald-300 line-clamp-1">
                       {challenge.title}
@@ -109,7 +109,6 @@ const MyActivities = () => {
                       </span>
                     </p>
 
-                    {/* Join Date */}
                     {joinDate && (
                       <p className="text-xs text-gray-400 mt-1">
                         Joined on:{" "}
