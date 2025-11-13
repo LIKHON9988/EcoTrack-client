@@ -34,7 +34,7 @@ const RecentTips = () => {
   return (
     <section className="py-14 md:py-16 px-4 md:px-10 text-gray-100">
       <div className="w-full md:w-11/12 mx-auto">
-        <h2 className="text-2xl md:text-3xl font-bold mb-8 text-emerald-300 text-center drop-shadow-md">
+        <h2 className="text-2xl md:text-3xl text-center mb-10 font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-green-300 to-teal-400 drop-shadow-lg">
           Recent Community Tips
         </h2>
 

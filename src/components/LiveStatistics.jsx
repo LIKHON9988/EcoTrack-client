@@ -10,7 +10,7 @@ const LiveStatistics = () => {
   });
 
   useEffect(() => {
-    const DEFAULTS = { green: 4000, bike: 3000, water: 7000, total: 12 };
+    const DEFAULTS = { green: 4089, bike: 3670, water: 7895, total: 12 };
 
     const deriveCount = (item) => {
       const numericFields = [
@@ -79,7 +79,6 @@ const LiveStatistics = () => {
 
         const total = list.length;
 
-        // Fallbacks for the three featured cards ONLY (requested values)
         const fallback = {
           water: DEFAULTS.water,
           bike: DEFAULTS.bike,
@@ -88,7 +87,6 @@ const LiveStatistics = () => {
         };
 
         setStats({
-          // Order: Green Commute Week, Bike-to-Work Month, Water-Wise Week
           waterWise: water ?? fallback.water,
           bikeToWork: bike ?? fallback.bike,
           greenCommute: green ?? fallback.green,
@@ -97,7 +95,7 @@ const LiveStatistics = () => {
         });
       } catch (err) {
         console.log("Failed to load challenges for live stats", err);
-        // Provide fallbacks on error (requested values for the first three, normal for active)
+
         setStats({
           waterWise: DEFAULTS.water,
           bikeToWork: DEFAULTS.bike,
@@ -108,7 +106,7 @@ const LiveStatistics = () => {
       }
     };
     loadAll();
-    const interval = setInterval(loadAll, 10000); // refresh every 10s to reflect joins/cancels
+    const interval = setInterval(loadAll, 10000);
     const onFocus = () => loadAll();
     window.addEventListener("focus", onFocus);
     const normalize = (t) => String(t || "").toLowerCase();
@@ -181,7 +179,7 @@ const LiveStatistics = () => {
   return (
     <section className="py-10 md:py-12 px-4 md:px-10 text-gray-100">
       <div className="w-full md:w-11/12 mx-auto">
-        <h2 className="text-2xl md:text-3xl font-bold mb-2 text-emerald-300 text-center drop-shadow-md">
+        <h2 className="text-2xl md:text-3xl text-center mb-10 font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-green-300 to-teal-400 drop-shadow-lg">
           Live Community Statistics
         </h2>
         <p className="text-center text-gray-300 mb-6">

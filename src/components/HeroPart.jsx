@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
+import { Link } from "react-router";
 
 const slides = [
   {
@@ -7,7 +8,7 @@ const slides = [
     desc: "Reimagining innovation with sustainability at its heart.",
     image:
       "https://preview.redd.it/fall-in-the-smokies-3840x2160-v0-4smj0apwejhb1.png?width=1080&crop=smart&auto=webp&s=5435141c3dcb36fca8362de0471c9d80c166168d",
-    btn: "Discover More",
+    btn: "Join Challenges",
   },
   {
     id: 2,
@@ -15,14 +16,14 @@ const slides = [
     desc: "Smart solutions designed to reduce impact and inspire change.",
     image:
       "https://i.pinimg.com/originals/e5/c8/03/e5c803a1f390a8bfb5f45abd8a055ba5.jpg",
-    btn: "Learn More",
+    btn: "Join Challenges",
   },
   {
     id: 3,
     title: "Empower Your Green Vision",
     desc: "Together, we shape a sustainable, connected future.",
     image: "https://wallpaperaccess.com/full/270973.jpg",
-    btn: "Join the Movement",
+    btn: "Join Challenges",
   },
 ];
 
@@ -40,7 +41,6 @@ const HeroPart = () => {
 
   return (
     <section className="relative w-full h-[50vh] md:h-[70vh] overflow-hidden bg-gray-900">
-      {/* Slides container */}
       <div
         className="flex transition-transform duration-[900ms] ease-in-out h-full"
         style={{ transform: `translateX(-${index * 100}%)` }}
@@ -66,9 +66,12 @@ const HeroPart = () => {
                 <p className="text-xs sm:text-sm md:text-base lg:text-lg text-gray-200 mb-4 sm:mb-6">
                   {slide.desc}
                 </p>
-                <button className="btn btn-success rounded-full font-semibold px-4 sm:px-6 md:px-8 text-white hover:scale-105 transition-transform duration-300 text-sm sm:text-base">
-                  {slide.btn}
-                </button>
+                <Link to={"/challenges"}>
+                  {" "}
+                  <button className="btn btn-success rounded-full font-semibold px-4 sm:px-6 md:px-8 text-white hover:scale-105 transition-transform duration-300 text-sm sm:text-base">
+                    {slide.btn}
+                  </button>
+                </Link>
               </div>
             </div>
           </div>

@@ -1,8 +1,13 @@
 import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router";
 import { AuthContext } from "../contexts/AuthContext";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AddChallenges = () => {
   const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     title: "",
     category: "",
@@ -38,7 +43,11 @@ const AddChallenges = () => {
 
       if (!res.ok) throw new Error("Failed to add challenge");
 
-      alert("✅ Challenge added successfully!");
+      toast.success("✅ Challenge added successfully!", {
+        position: "top-center",
+        autoClose: 2000,
+      });
+
       setFormData({
         title: "",
         category: "",
@@ -50,15 +59,20 @@ const AddChallenges = () => {
         startDate: "",
         endDate: "",
       });
+
+      setTimeout(() => navigate("/challenges"), 2000);
     } catch (err) {
       console.error(err);
-      alert("Something went wrong. Try again!");
+      toast.error("❌ Something went wrong. Try again!", {
+        position: "top-center",
+        autoClose: 3000,
+      });
     }
   };
 
   return (
-    <section className="min-h-screen bg-gradient-to-br from-[#050806] via-[#0b1410] to-[#051009] flex flex-col items-center py-24 px-4 text-gray-100">
-      <h1 className="text-4xl sm:text-5xl font-bold text-emerald-400 mb-10 drop-shadow-lg text-center">
+    <section className="min-h-screen bg-gradient-to-br from-[#050806] via-[#0b1410] to-[#051009] flex flex-col items-center py-28 px-4 text-gray-100">
+      <h1 className="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-green-300 to-teal-400 drop-shadow-lg mb-8">
         🌿 Add New Challenge
       </h1>
 
@@ -187,6 +201,17 @@ const AddChallenges = () => {
           Add Challenge
         </button>
       </form>
+
+      <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        pauseOnHover
+        draggable
+        theme="dark"
+      />
     </section>
   );
 };

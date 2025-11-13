@@ -116,8 +116,8 @@ const Navbar = () => {
             </ul>
           </div>
           <Link to={"/"}>
-            <p className="hover:cursor-pointer text-2xl font-bold text-white">
-              Eco<span className="text-primary">Track</span>
+            <p className="hover:cursor-pointer text-2xl font-bold italic text-white">
+              Eco<span className="text-primary ">Track</span>
             </p>
           </Link>
         </div>

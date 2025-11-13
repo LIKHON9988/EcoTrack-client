@@ -93,7 +93,7 @@ const SignUp = () => {
         <div className="absolute -bottom-10 -right-10 w-52 h-52 md:w-80 md:h-80 bg-green-500/10 rounded-full blur-3xl" />
       </div>
 
-      <div className="relative z-10 w-11/12 max-w-md md:max-w-lg">
+      <div className="relative z-10 w-11/12 max-w-md md:max-w-lg pt-16">
         <div className="bg-white/5 backdrop-blur-2xl border border-white/10 rounded-2xl p-5 md:p-8 shadow-[0_0_40px_-10px_rgba(16,185,129,0.3)]">
           <div className="mb-4 md:mb-6 text-center">
             <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-white to-gray-200 bg-clip-text text-transparent">
@@ -104,7 +104,7 @@ const SignUp = () => {
             </p>
           </div>
 
-          <form onSubmit={handleCreatUser} className="space-y-3 md:space-y-4">
+          <form onSubmit={handleCreatUser} className="space-y-3 md:space-y-4 ">
             <div>
               <label className="block text-white/90 text-sm mb-1">Name</label>
               <input
@@ -202,11 +202,10 @@ const SignUp = () => {
               {loading ? "Registering..." : "Register"}
             </button>
 
-            <div className="relative py-2">
-              <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-px bg-white/20" />
-              <span className="relative z-10 bg-transparent text-white/70 px-2 text-xs md:text-sm">
-                or
-              </span>
+            <div className="flex items-center my-2 md:my-3">
+              <div className="flex-grow h-px bg-white/20"></div>
+              <span className="px-2 text-xs md:text-sm text-white/70">or</span>
+              <div className="flex-grow h-px bg-white/20"></div>
             </div>
 
             <button

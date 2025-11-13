@@ -60,7 +60,7 @@ const Details = () => {
 
           <div className="md:col-span-2 space-y-4 sm:space-y-6 relative z-10">
             <h2 className="text-xl sm:text-2xl font-semibold text-emerald-400">
-              Challenge Overview 🌱
+              Challenge Overview
             </h2>
             <p className="text-gray-200 leading-relaxed text-sm sm:text-base">
               {description}

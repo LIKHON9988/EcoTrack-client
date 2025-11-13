@@ -34,7 +34,7 @@ const ActiveChallenge = () => {
 
   return (
     <section className="py-16 px-4 md:px-10 w-full md:w-11/12 mx-auto text-gray-100">
-      <h2 className="text-2xl md:text-3xl font-bold mb-10 text-emerald-300 text-center drop-shadow-md">
+      <h2 className="text-2xl md:text-3xl font-extrabold text-center mb-10 text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-green-300 to-teal-400 drop-shadow-lg">
         Active Challenges
       </h2>
 
@@ -96,7 +96,7 @@ const ActiveChallenge = () => {
 
       <div className="flex justify-center mt-10 md:mt-14">
         <Link to="/challenges">
-          <button className="px-6 md:px-8 py-3 rounded-full bg-gradient-to-r from-emerald-500 via-green-600 to-emerald-700 text-white font-semibold shadow-lg hover:shadow-emerald-500/25 hover:scale-105 transition-transform duration-300">
+          <button className="btn btn-success rounded-full font-semibold px-4 sm:px-6 md:px-8 text-white hover:scale-105 transition-transform duration-300 text-sm sm:text-base">
             View All Challenges
           </button>
         </Link>

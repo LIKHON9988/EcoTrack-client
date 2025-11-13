@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useLoaderData, useNavigate } from "react-router";
 import { AuthContext } from "../contexts/AuthContext";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Challenges = () => {
   const challengesData = useLoaderData();
@@ -17,13 +19,17 @@ const Challenges = () => {
           const ids = data.map((a) => a.challenge._id);
           setJoinedIds(ids);
         })
-        .catch((err) => console.error(err));
+        .catch((err) => {
+          console.error(err);
+          toast.error("Failed to load your activities.");
+        });
     }
   }, [user]);
 
   const handleJoin = async (challenge) => {
     if (!user) {
       navigate("/signIn");
+      toast.info("Please sign in to join this challenge.");
       return;
     }
 
@@ -36,6 +42,7 @@ const Challenges = () => {
 
       if (res.ok) {
         setJoinedIds([...joinedIds, challenge._id]);
+        toast.success(`🎉 You joined "${challenge.title}" successfully!`);
 
         try {
           window.dispatchEvent(
@@ -48,10 +55,11 @@ const Challenges = () => {
         }
       } else {
         const msg = await res.json();
-        alert(msg.message || "Failed to join");
+        toast.error(msg.message || "Failed to join the challenge.");
       }
     } catch (err) {
       console.error("Error joining challenge:", err);
+      toast.error("Error joining the challenge.");
     }
   };
 
@@ -69,20 +77,23 @@ const Challenges = () => {
       if (res.ok) {
         setChallenges((prev) => prev.filter((ch) => ch._id !== id));
         setJoinedIds((prev) => prev.filter((jid) => jid !== id));
+        toast.success("Challenge deleted successfully.");
       } else {
         const msg = await res.json().catch(() => ({}));
-        alert(msg.message || "Failed to delete challenge");
+        toast.error(msg.message || "Failed to delete challenge.");
       }
     } catch (error) {
       console.error("Error deleting challenge:", error);
-      alert("Error deleting challenge");
+      toast.error("Error deleting challenge.");
     }
   };
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-br from-[#050806] via-[#0b1410] to-[#051009] text-white py-8 px-4 sm:px-5">
+    <div className="relative min-h-screen bg-gradient-to-br from-[#050806] via-[#0b1410] to-[#051009] text-white py-8 pb-20 px-4 sm:px-5">
+      <ToastContainer position="top-right" autoClose={2500} theme="dark" />
+
       <div className="w-11/12 mx-auto text-center mb-12 mt-20">
-        <h1 className="text-4xl sm:text-5xl font-extrabold text-transparent  bg-clip-text bg-gradient-to-r from-emerald-400 via-green-300 to-teal-400 drop-shadow-lg">
+        <h1 className="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-green-300 to-teal-400 drop-shadow-lg">
           🌿 Eco Challenges
         </h1>
         <p className="text-gray-300 text-base sm:text-lg mt-3">

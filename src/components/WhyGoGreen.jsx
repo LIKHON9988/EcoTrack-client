@@ -28,7 +28,7 @@ const WhyGoGreen = () => {
   return (
     <section className="py-12 px-4 md:px-12 text-center  text-white">
       <div className="max-w-2xl mx-auto mb-8">
-        <h2 className="text-3xl md:text-4xl font-extrabold mb-3 text-emerald-400">
+        <h2 className="text-2xl md:text-3xl text-center mb-10 font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-green-300 to-teal-400 drop-shadow-lg">
           Why Go Green?
         </h2>
         <p className="text-base md:text-lg text-gray-300 leading-relaxed">

@@ -55,10 +55,10 @@ const MyActivities = () => {
   );
 
   return (
-    <section className="relative min-h-screen bg-gradient-to-br from-[#050806] via-[#0b1410] to-[#051009] pt-20 pb-16 px-4 text-gray-100 flex flex-col">
+    <section className="relative min-h-screen bg-gradient-to-br from-[#050806] via-[#0b1410] to-[#051009] pt-28 pb-16 px-4 text-gray-100 flex flex-col">
       <div className="w-11/12 mx-auto text-center mb-12">
-        <h1 className="text-4xl sm:text-5xl font-bold text-emerald-400 mb-4 drop-shadow-lg">
-          🌱 My Eco Activities
+        <h1 className="text-4xl sm:text-5xl font-extrabold mb-3 text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-green-300 to-teal-400 drop-shadow-lg">
+          My Eco Activities
         </h1>
         <p className="text-gray-300 text-lg">
           Track your progress and celebrate your positive impact!

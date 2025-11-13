@@ -131,11 +131,10 @@ const SignIn = () => {
               {loading ? "Logging in..." : "Log In"}
             </button>
 
-            <div className="relative py-2">
-              <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-px bg-white/20" />
-              <span className="relative z-10 bg-transparent text-white/70 px-2 text-xs md:text-sm">
-                or
-              </span>
+            <div className="flex items-center my-2 md:my-3">
+              <div className="flex-grow h-px bg-white/20"></div>
+              <span className="px-2 text-xs md:text-sm text-white/70">or</span>
+              <div className="flex-grow h-px bg-white/20"></div>
             </div>
 
             <button
