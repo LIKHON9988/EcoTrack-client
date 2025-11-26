@@ -40,7 +40,7 @@ const HeroPart = () => {
   }, []);
 
   return (
-    <section className="relative w-full md:max-w-6xl mx-auto h-[50vh] md:h-[55vh] rounded-3xl overflow-hidden bg-gray-900">
+    <section className="relative w-full md:max-w-7xl mx-auto h-[50vh] md:h-[55vh] rounded-3xl overflow-hidden bg-gray-900">
       <div
         className="flex transition-transform duration-[900ms] ease-in-out h-full"
         style={{ transform: `translateX(-${index * 100}%)` }}

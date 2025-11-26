@@ -35,7 +35,7 @@ const ActiveChallenge = () => {
   }
 
   return (
-    <section className="py-16 px-4 md:px-0 w-full md:max-w-6xl mx-auto text-gray-100">
+    <section className="py-16 px-4 md:px-0 w-full md:max-w-7xl mx-auto text-gray-100">
       <h2 className="text-2xl md:text-3xl font-extrabold text-center mb-10 text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-green-300 to-teal-400 drop-shadow-lg">
         Active Challenges
       </h2>

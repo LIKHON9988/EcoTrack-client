@@ -67,7 +67,7 @@ const MyActivities = () => {
         </p>
       </div>
 
-      <div className="w-full md:max-w-6xl  mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="w-full md:max-w-7xl  mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         {!user || activities.length === 0
           ? renderEmptyState()
           : activities.map((activity) => {
