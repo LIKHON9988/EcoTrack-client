@@ -40,7 +40,7 @@ const HeroPart = () => {
   }, []);
 
   return (
-    <section className="relative w-full h-[50vh] md:h-[70vh] overflow-hidden bg-gray-900">
+    <section className="relative w-full md:max-w-6xl mx-auto h-[50vh] md:h-[55vh] rounded-3xl overflow-hidden bg-gray-900">
       <div
         className="flex transition-transform duration-[900ms] ease-in-out h-full"
         style={{ transform: `translateX(-${index * 100}%)` }}
@@ -60,10 +60,10 @@ const HeroPart = () => {
 
             <div className="absolute inset-0 flex items-center  px-4 sm:px-6 md:px-16 lg:px-24">
               <div className="max-w-sm sm:max-w-md md:max-w-xl backdrop-blur-md bg-white/10 border border-white/20 rounded-2xl p-4 sm:p-6 md:p-8 shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-white animate-fadeIn">
-                <h1 className="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-extrabold mb-2 sm:mb-3 tracking-tight">
+                <h1 className="text-xl  md:text-2xl font-extrabold mb-2 sm:mb-3 tracking-tight">
                   {slide.title}
                 </h1>
-                <p className="text-xs sm:text-sm md:text-base lg:text-lg text-gray-200 mb-4 sm:mb-6">
+                <p className="text-xs  md:text-base text-gray-200 mb-4 sm:mb-6">
                   {slide.desc}
                 </p>
                 <Link to={"/challenges"}>

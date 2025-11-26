@@ -53,7 +53,7 @@ const LiveStatistics = () => {
 
   return (
     <section className="py-10 md:py-12 px-4 md:px-10 text-gray-100">
-      <div className="w-full md:w-11/12 mx-auto">
+      <div className="w-full md:max-w-6xl mx-auto">
         <h2 className="text-2xl md:text-3xl text-center mb-10 font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-green-300 to-teal-400 drop-shadow-lg">
           Live Community Statistics
         </h2>

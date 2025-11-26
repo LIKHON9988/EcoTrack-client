@@ -7,7 +7,7 @@ const Footer = () => {
       <div className="absolute -top-16 -left-16 w-40 h-40 md:w-64 md:h-64 bg-emerald-600/20 blur-3xl rounded-full"></div>
       <div className="absolute -bottom-16 -right-16 w-52 h-52 md:w-80 md:h-80 bg-green-500/10 blur-3xl rounded-full"></div>
 
-      <div className="relative w-11/12 mx-auto px-6 text-center md:text-left">
+      <div className="relative w-full md:max-w-6xl mx-auto  text-center md:text-left">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 backdrop-blur-md bg-white/5 rounded-2xl p-6 border border-white/10 shadow-[0_0_40px_-10px_rgba(16,185,129,0.3)]">
           <div className="flex flex-col items-center md:items-start gap-2">
             <h2 className="text-xl font-semibold text-white">

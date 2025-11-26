@@ -9,7 +9,7 @@ import HowItWorks from "./HowItWorks";
 
 const Home = () => {
   return (
-    <div className="bg-gradient-to-br from-[#050806] via-[#0b1410] to-[#051009]">
+    <div className="bg-gradient-to-br from-[#050806] via-[#0b1410] to-[#051009] ">
       <HeroPart></HeroPart>
 
       <LiveStatistics></LiveStatistics>
